@@ -6,6 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/icons';
 import { Search } from 'lucide-react';
 
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export function SearchInput() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -13,7 +17,8 @@ export function SearchInput() {
   function searchAction(formData: FormData) {
     let value = formData.get('q') as string;
     let params = new URLSearchParams({ q: value });
-    startTransition(() => {
+    startTransition(async () => {
+      await wait(1000);
       router.replace(`/?${params.toString()}`);
     });
   }

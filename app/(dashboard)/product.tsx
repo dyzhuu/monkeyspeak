@@ -10,10 +10,15 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { MoreHorizontal } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
-import { SelectProduct } from '@/lib/db';
-import { deleteProduct } from './actions';
+import { deleteProductAction } from './actions';
+import { SelectProduct } from '@/services/product';
 
 export function Product({ product }: { product: SelectProduct }) {
+  async function submitAction() {
+    console.log('ran');
+    await deleteProductAction(product.id);
+  }
+
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
@@ -47,11 +52,11 @@ export function Product({ product }: { product: SelectProduct }) {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>
-              <form action={deleteProduct}>
-                <button type="submit">Delete</button>
-              </form>
-            </DropdownMenuItem>
+            <form action={submitAction}>
+              <DropdownMenuItem asChild>
+                <button className="w-full">Delete</button>
+              </DropdownMenuItem>
+            </form>
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>

@@ -1,10 +1,13 @@
 'use server';
 
-import { deleteProductById } from '@/lib/db';
+import { db } from '@/lib/db';
+import { products } from '@/lib/db/schema';
+import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
-export async function deleteProduct(formData: FormData) {
-  // let id = Number(formData.get('id'));
-  // await deleteProductById(id);
-  // revalidatePath('/');
+export async function deleteProductAction(id: number) {
+  console.log(id);
+  await db.delete(products).where(eq(products.id, id));
+
+  revalidatePath('/');
 }
