@@ -1,68 +1,51 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { deepgram } from './deepgram';
-import { ListenLiveClient, LiveTranscriptionEvents } from '@deepgram/sdk';
 import { useAudioStream } from 'react-audio-stream';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import io, { Socket } from 'socket.io-client';
 
 export default function TestPage() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [result, setResult] = useState('');
-  const connectionRef = useRef<ListenLiveClient>(
-    deepgram.listen.live({
-      model: 'nova-2',
-      language: 'en-US',
-      smart_format: true
-    })
-  );
+  const [ws, setWs] = useState<Socket | null>(null);
 
   useEffect(() => {
-    // Define the event handlers
-    const handleOpen = () => {
-      console.log('Connection opened.');
+    console.log('Connecting to WebSocket server...');
+    const socket = io('ws://localhost:8080', {
+      transports: ['websocket']
+    });
 
-      connectionRef.current?.on(LiveTranscriptionEvents.Close, () => {
-        console.log('Connection closed.');
-      });
+    socket.on('connect', () => {
+      console.log('Connected to WebSocket server');
+    });
 
-      connectionRef.current?.on(LiveTranscriptionEvents.Transcript, (data) => {
-        setResult((res) => res + ' ' + data.channel.alternatives[0].transcript);
-      });
+    socket.on('message', (newMessage) => {
+      setResult((res) => res + ' ' + newMessage);
+    });
 
-      connectionRef.current?.on(LiveTranscriptionEvents.Metadata, (data) => {
-        console.log(data);
-      });
+    setWs(socket);
 
-      connectionRef.current?.on(LiveTranscriptionEvents.Error, (err) => {
-        console.error(err);
-      });
-    };
-
-    /* Initialize your WebSocket connection */
-    connectionRef.current.on(LiveTranscriptionEvents.Open, handleOpen);
-
-    // Cleanup
     return () => {
-      connectionRef.current?.removeAllListeners(); // Or handle specific removals
+      console.log('Disconnecting from WebSocket server...');
+      socket.disconnect();
+      setWs(null);
     };
   }, []);
 
-  useEffect(() => {}, []);
-
   const sendBlob = (blob: Blob) => {
-    // write your stream logic here.
-    blob
-      .stream()
-      .getReader()
-      .read()
-      .then(({ value, done }) => {
-        if (done) {
-          return;
-        }
-        connectionRef.current?.send(value);
-      });
+    if (ws) {
+      blob
+        .stream()
+        .getReader()
+        .read()
+        .then(({ value, done }) => {
+          if (done) return;
+          ws.emit('message', value);
+        });
+    }
   };
+
   const { startStream, stopStream } = useAudioStream(sendBlob);
 
   async function startStreaming() {
