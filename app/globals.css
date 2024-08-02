@@ -66,14 +66,14 @@
   }
 }
 
-@layer base {
+/* @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
   }
-}
+} */
 
 /* Chrome, Safari, Edge, Opera */
 input[type='search']::-webkit-search-cancel-button {
