@@ -61,7 +61,7 @@ async function startStreaming() {
         webSocket.send(data);
         console.log("Sent data:", data);
       }
-    }, 250); // Faster interval for sending data (50ms)
+    }, 50);
 
     startButton.disabled = true;
     stopButton.disabled = false;
