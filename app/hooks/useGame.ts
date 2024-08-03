@@ -107,6 +107,7 @@ export function useGame(text: string[]) {
   const { startStream, stopStream } = useAudioStream(sendBlob);
 
   async function startStreaming() {
+    if (isStreaming) return;
     startStream();
     setIsStreaming(true);
   }
