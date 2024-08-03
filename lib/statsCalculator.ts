@@ -3,7 +3,7 @@ type scoreStats = {
   wordsPerMinute: number;
 };
 
-function statsCalculator(
+export function statsCalculator(
   currentIndex: number,
   total: number,
   correct: number,

@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { speechStats, tokenize } from '../../lib/check-speech';
-import { useGame } from '../hooks/useGame';
 
 export default function TextBox({
   paragraph,
@@ -45,14 +44,6 @@ export default function TextBox({
   useEffect(() => {
     setTextIndex(wordIndexes[gameStats.currentIndex]);
   }, [gameStats]);
-
-  // function updateIndexes() {
-  //   setTextIndex((index) => index + 1);
-  // }
-  // useEffect(() => {
-  //   document.removeEventListener('keydown', updateIndexes);
-  //   document.addEventListener('keydown', updateIndexes);
-  // }, []);
 
   // const tokenizedParagraph = useMemo(() => tokenize(paragraph), [paragraph]);
   // useEffect(() => {
