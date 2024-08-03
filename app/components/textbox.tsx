@@ -1,36 +1,43 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { tokenize } from '../../lib/check-speech';
+import { useMemo } from 'react';
 
-export default function TextBox({ paragraph } : { paragraph: string }) {
-    const [textIndex, setTextIndex] = useState(0);
-    const [spokenText, setSpokenText] = useState('');
-    const [remainingText, setRemainingText] = useState('');
+interface TextBoxProps {
+  tokenizedText: string[];
+  currentIndex: number;
+}
 
-    const [wordIndexes, setWordIndexes] = useState<number[]>([]);
+export default function TextBox({ tokenizedText, currentIndex }: TextBoxProps) {
+  const spokenText = useMemo(
+    () => tokenizedText.slice(0, currentIndex).join(' '),
+    [tokenizedText]
+  );
 
-    function updateText() {
-      setSpokenText(paragraph.substring(0, textIndex));
-      setRemainingText(paragraph.substring(textIndex));
-    }
+  const remainingText = useMemo(
+    () => tokenizedText.slice(currentIndex, tokenizedText.length + 1).join(' '),
+    [tokenizedText]
+  );
 
-    useEffect(() => {
-      updateText();
-    }, [textIndex]);
+  // const tokenizedParagraph = useMemo(() => tokenize(paragraph), [paragraph]);
+  // useEffect(() => {
+  //   setSpokenText(
+  //     tokenizedParagraph.slice(0, gameStats.currentIndex).join(' ')
+  //   );
+  //   setRemainingText(
+  //     tokenizedParagraph
+  //       .slice(gameStats.currentIndex + 1, tokenizedParagraph.length)
+  //       .join(' ')
+  //   );
+  // }, [gameStats]);
 
-    useEffect(() => {
-      document.addEventListener('keydown', (event) => {
-        setTextIndex((index) =>  index + 1);
-      });
-    }, [])
-
-    return (
-        <div className='h-[25vh] grow flex flex-col justify-center'>
-            <div className='grow overflow-y-scroll scrollbar-hide bg-transparent text-wrap text-justify text-3xl text-[#394760] p-2'>
-                <span><mark className='bg-transparent text-white'>{spokenText}</mark></span>
-                <span>{remainingText ? remainingText : paragraph}</span>
-            </div>
-        </div>
-    );
+  return (
+    <div className="h-[25vh] grow flex flex-col justify-center">
+      <div className="grow overflow-y-scroll scrollbar-hide bg-transparent text-wrap text-justify text-3xl text-[#394760] p-2">
+        <span>
+          <mark className="bg-transparent text-white">{spokenText}</mark>
+        </span>{' '}
+        <span>{remainingText}</span>
+      </div>
+    </div>
+  );
 }
