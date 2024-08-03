@@ -4,6 +4,9 @@ import { useRef, useState, useEffect } from 'react';
 
 import TextBox from './textbox';
 import Results from './results';
+import { useStyleRegistry } from 'styled-jsx';
+import { stringify } from 'querystring';
+import ModeBar from './modeBar';
 
 export default function Main() {
     const textBox = useRef<HTMLDivElement>(null);
@@ -11,7 +14,8 @@ export default function Main() {
     const [gameOver, setGameOver] = useState(false);
     const [gameRunning, setGameRunning] = useState(false);
     const [timer, setTimer] = useState(0);
-
+    
+    
     function toggleAnimation(element: HTMLElement, animation: string) {
         element.classList.remove(animation);
         element.offsetHeight;
@@ -76,6 +80,9 @@ export default function Main() {
                         : <button onClick={() => { gameOver ? toggleAnimation(textBox.current as HTMLDivElement, 'animate-[fade_0.5s]') : startGame(); }} className='rounded-[3rem] font-bold text-2xl text-[#394760] bg-[#9FADC6] p-2 px-5'>{gameOver ? 'New Game' : 'Start'}</button>
                     }
                 </div>
+
+                <ModeBar />
+                
             </div>
         </div>
     );
