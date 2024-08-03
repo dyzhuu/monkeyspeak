@@ -65,7 +65,7 @@ export const Game = ({ text, onEsc }: GameProps) => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col justify-center gap-10 grow">
       <div ref={textboxRef}>
         <TextBox
           tokenizedText={tokenizedText}

@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 
 export default function ModeBar() {
@@ -18,17 +19,17 @@ export default function ModeBar() {
   }
 
   return (
-    <div className="w-full flex justify-evenly items-center *:w-[33%] *:flex *:justify-evenly *:rounded-md gap-4">
+    <div className="w-full flex justify-evenly items-center *:w-[33%] *:flex *:justify-evenly *:rounded-md gap-4 whitespace-nowrap">
       <div className="bg-[#141A24]">
         <button
           onClick={() => changeMove('time')}
-          className={`rounded-[0rem] font-bold text-2xl ${mode == 'time' ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
+          className={`font-bold text-2xl ${mode == 'time' ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
         >
           Time
         </button>
         <button
           onClick={() => changeMove('word')}
-          className={`rounded-[0rem] font-bold text-2xl ${mode == 'word' ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
+          className={`font-bold text-2xl ${mode == 'word' ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
         >
           Word
         </button>
@@ -36,19 +37,19 @@ export default function ModeBar() {
       <div className="bg-[#141A24]">
         <button
           onClick={() => changeValue(15)}
-          className={`rounded-[0rem] font-bold text-2xl ${value == 15 ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5 whitespace-normal`}
+          className={`font-bold text-2xl ${value == 15 ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5 whitespace-normal`}
         >
           {mode == 'time' ? '  15  ' : 'Easy'}
         </button>
         <button
           onClick={() => changeValue(30)}
-          className={`rounded-[0rem] font-bold text-2xl ${value == 30 ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
+          className={`font-bold text-2xl ${value == 30 ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
         >
           {mode == 'time' ? 30 : 'Medium'}
         </button>
         <button
           onClick={() => changeValue(45)}
-          className={`rounded-[0rem] font-bold text-2xl ${value == 45 ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
+          className={`font-bold text-2xl ${value == 45 ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
         >
           {mode == 'time' ? 45 : 'Hard'}
         </button>
@@ -56,13 +57,13 @@ export default function ModeBar() {
       <div className=" bg-[#141A24]">
         <button
           onClick={() => changePlayer('single')}
-          className={`rounded-[0rem] font-bold text-2xl ${player == 'single' ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
+          className={`font-bold text-2xl ${player == 'single' ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
         >
           Single Player
         </button>
         <button
           onClick={() => changePlayer('multi')}
-          className={`rounded-[0rem] font-bold text-2xl ${player == 'multi' ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
+          className={`font-bold text-2xl ${player == 'multi' ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
         >
           Multiplayer
         </button>
