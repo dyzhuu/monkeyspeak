@@ -1,12 +1,17 @@
+const sentences = require('../words.json').sentences;
+
 function getRandomSentence(sentences: string[]) {
-    const randomIndex = Math.floor(Math.random() * sentences.length);
-    return sentences[randomIndex];
+  const randomIndex = Math.floor(Math.random() * sentences.length);
+  return sentences[randomIndex];
 }
 
-export function generateRandomParagraph(sentences: string[], numOfSentences: number) {
+export function generateRandomParagraph() {
+  const numOfSentences = 1;
   // Number of sentences chosen cannot exceed amount of sentences available
   if (numOfSentences > sentences.length) {
-    console.error("Number of sentences cannot exceed amount of sentences available");
+    console.error(
+      'Number of sentences cannot exceed amount of sentences available'
+    );
     return '';
   }
 

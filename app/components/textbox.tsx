@@ -1,58 +1,30 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
-import { speechStats, tokenize } from '../../lib/check-speech';
-import { useGame } from '../hooks/useGame';
+import { useMemo } from 'react';
 
-export default function TextBox({
-  paragraph,
-  gameStats
-}: {
-  paragraph: string;
-  gameStats: speechStats;
-}) {
-  const tokenizedParagraph = useMemo(() => tokenize(paragraph), [paragraph]);
+interface TextBoxProps {
+  tokenizedText: string[];
+  currentIndex: number;
+}
 
-  // const wordIndexes = useMemo(() => {
-  //   const tempIndexes = [];
-  //   for (let index = 0; index < paragraph.length; index++) {
-  //     if (paragraph.charAt(index) == ' ') {
-  //       tempIndexes.push(index + 1);
-  //     }
-  //   }
-  //   return tempIndexes;
-  // }, [paragraph]);
+export default function TextBox({ tokenizedText, currentIndex }: TextBoxProps) {
+  const spokenText = useMemo(
+    () => tokenizedText.slice(0, currentIndex).join(' '),
+    [tokenizedText]
+  );
 
-  const spokenText = tokenizedParagraph
-    .slice(0, gameStats.currentIndex)
-    .join(' ');
-
-  const remainingText = tokenizedParagraph
-    .slice(gameStats.currentIndex + 1, tokenizedParagraph.length)
-    .join(' ');
-
-  // function updateText() {
-  //   setSpokenText(paragraph.substring(0, textIndex));
-  //   setRemainingText(paragraph.substring(textIndex));
-  // }
-
-  // useEffect(() => {
-  //   updateText();
-  // }, [textIndex]);
-
-  // useEffect(() => {
-  //   document.addEventListener('keydown', (event) => {
-  //     setTextIndex((index) => index + 1);
-  //   });
-  // }, []);
+  const remainingText = useMemo(
+    () => tokenizedText.slice(currentIndex, tokenizedText.length + 1).join(' '),
+    [tokenizedText]
+  );
 
   return (
     <div className="h-[25vh] grow flex flex-col justify-center">
       <div className="grow overflow-y-scroll scrollbar-hide bg-transparent text-wrap text-justify text-3xl text-[#394760] p-2">
         <span>
           <mark className="bg-transparent text-white">{spokenText}</mark>
-        </span>
-        <span>{remainingText ? remainingText : paragraph}</span>
+        </span>{' '}
+        <span>{remainingText}</span>
       </div>
     </div>
   );

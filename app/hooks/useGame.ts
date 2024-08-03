@@ -1,15 +1,16 @@
-import { Button } from '@/components/ui/button';
 import { ListenLiveClient, LiveTranscriptionEvents } from '@deepgram/sdk';
 import { useAudioStream } from 'react-audio-stream';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { checkSpeech, speechStats, tokenize } from '@/lib/check-speech';
+import { useEffect, useRef, useState } from 'react';
+import { checkSpeech, speechStats } from '@/lib/check-speech';
 import { deepgram } from '@/lib/deepgram';
+import { useRouter } from 'next/router';
+import { useAudioCapture } from './useAudioCapture';
 
 export function useGame(text: string[]) {
   const [isStreaming, setIsStreaming] = useState(false);
   const [intervalRef, setIntervalRef] = useState<NodeJS.Timeout | null>(null);
   const [result, setResult] = useState('');
-  const [ws, setWs] = useState<ListenLiveClient>();
+  const [ws, setWs] = useState<ListenLiveClient | null>();
   const [gameStats, setGameStats] = useState<speechStats>({
     currentIndex: 0,
     total: 0,
@@ -30,8 +31,6 @@ export function useGame(text: string[]) {
 
     // Define the event handlers
     const handleOpen = () => {
-      console.log('Connection opened.');
-
       setIntervalRef(
         setInterval(() => {
           connection.keepAlive();
@@ -89,10 +88,9 @@ export function useGame(text: string[]) {
     };
   }, []);
 
-  useEffect(() => {}, []);
-
   const sendBlob = (blob: Blob) => {
     // write your stream logic here.
+    if (!ws) return;
     blob
       .stream()
       .getReader()
@@ -104,18 +102,25 @@ export function useGame(text: string[]) {
         ws?.send(value);
       });
   };
+
   const { startStream, stopStream } = useAudioStream(sendBlob);
 
   async function startStreaming() {
-    if (isStreaming) return;
-    startStream();
-    setIsStreaming(true);
+    try {
+      if (isStreaming) return;
+      startStream();
+      setIsStreaming(true);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async function stopStreaming() {
     stopStream();
-    ws?.disconnect();
-    setWs(undefined);
+    if (ws) {
+      ws.disconnect();
+      setWs(null);
+    }
     setIsStreaming(false);
   }
 
