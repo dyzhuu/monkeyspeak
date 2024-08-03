@@ -7,7 +7,7 @@ export default function Results() {
     const [time, setTime] = useState(0);
 
     return (
-        <div className='grid grid-cols-3 p-20'>
+        <div className='grid grid-cols-3 p-20 text-center'>
             <div className='flex flex-col justify-center items-center'>
                 <h1 className='font-bold text-2xl text-[#394760]'>Accuracy</h1>
                 <p className='font-bold text-5xl text-[#9FADC6]'>{accuracy}%</p>

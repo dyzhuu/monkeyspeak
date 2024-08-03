@@ -56,11 +56,11 @@ export default function Main() {
     }, [gameRunning]);
 
     return (
-        <div className='w-3/4 min-w-max m-16'>
+        <div className='max-w-[75%] min-w-min m-16'>
             <h1 className='font-bold text-5xl text-[#9FADC6] m-2'>monkeyspeak</h1>
             
             <div className='w-full flex flex-col justify-center items-center gap-5'>
-                <div ref={textBox} onAnimationEndCapture={() => { setGameOver(!gameOver); }} className='w-full min-h-[25vh] grid'>
+                <div ref={textBox} onAnimationEndCapture={() => { setGameOver(!gameOver); }} className='w-full grid'>
                     {
                         gameOver ?
                             <Results />
