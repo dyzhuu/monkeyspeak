@@ -5,12 +5,16 @@ import { deepgram } from './deepgram';
 import { ListenLiveClient, LiveTranscriptionEvents } from '@deepgram/sdk';
 import { useAudioStream } from 'react-audio-stream';
 import { useEffect, useRef, useState } from 'react';
+import { checkSpeech, tokenize } from '@/lib/check-speech';
+
+const text = tokenize('hello testing this');
 
 export default function TestPage() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [intervalRef, setIntervalRef] = useState<NodeJS.Timeout | null>(null);
   const [result, setResult] = useState('');
   const [ws, setWs] = useState<ListenLiveClient>();
+  const currentIndexRef = useRef(0);
 
   useEffect(() => {
     const connection = deepgram.listen.live({
@@ -28,9 +32,7 @@ export default function TestPage() {
 
       setIntervalRef(
         setInterval(() => {
-          const keepAliveMsg = JSON.stringify({ type: 'KeepAlive' });
-          connection.send(keepAliveMsg);
-          console.log('Sent KeepAlive message');
+          connection.keepAlive();
         }, 3000)
       );
 
@@ -39,7 +41,26 @@ export default function TestPage() {
       });
 
       connection?.on(LiveTranscriptionEvents.Transcript, (data) => {
-        setResult((res) => res + ' ' + data.channel.alternatives[0].transcript);
+        const message = data.channel.alternatives[0].transcript;
+
+        if (currentIndexRef.current >= text.length) return;
+
+        const stats = checkSpeech({
+          baseText: text,
+          speechText: message,
+          currentIndex: currentIndexRef.current
+        });
+
+        console.log(stats.currentIndex);
+
+        currentIndexRef.current = stats.currentIndex;
+
+        if (stats.currentIndex >= text.length) {
+          setIsStreaming(false);
+          connection.disconnect();
+        }
+
+        setResult((res) => res + ' ' + message);
       });
 
       connection?.on(LiveTranscriptionEvents.Metadata, (data) => {
@@ -85,6 +106,8 @@ export default function TestPage() {
 
   async function stopStreaming() {
     stopStream();
+    ws?.disconnect();
+    setWs(undefined);
     setIsStreaming(false);
   }
 
@@ -96,6 +119,10 @@ export default function TestPage() {
       <Button onClick={stopStreaming} disabled={!isStreaming}>
         Stop Streaming
       </Button>
+      <pre>
+        as the living it is our responsibility to carry out the wishes of the
+        ones who are gone
+      </pre>
       <p>{result}</p>
     </div>
   );
