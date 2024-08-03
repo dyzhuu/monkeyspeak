@@ -56,8 +56,8 @@ export default function Main() {
     }, [gameRunning]);
 
     return (
-        <div className='max-w-[75%] min-w-min m-16'>
-            <h1 className='font-bold text-5xl text-[#9FADC6] m-2'>monkeyspeak</h1>
+    <div className="max-w-[75rem] min-w-[50rem] w-full flex flex-col self-center content-center justify-center grow">
+      <h1 className="font-bold text-5xl text-[#9FADC6] mb-4">monkeyspeak</h1>
             
             <div className='w-full flex flex-col justify-center items-center gap-5'>
                 <div ref={textBox} onAnimationEndCapture={() => { setGameOver(!gameOver); }} className='w-full grid'>
@@ -69,11 +69,11 @@ export default function Main() {
                     }
                 </div>
 
-                <div className='w-full flex justify-center items-center'>
+                <div className="flex justify-center items-center">
                     {
                         gameRunning ?
                             <h2 className='rounded-[5rem] font-bold text-4xl text-[#9FADC6]'>{timer}</h2>
-                        : <button onClick={() => { gameOver ? toggleAnimation(textBox.current as HTMLDivElement, 'animate-[fade_0.5s]') : startGame(); }} className='rounded-[3rem] font-bold text-2xl text-[#394760] bg-[#9FADC6] p-2 px-5'>{gameOver ? 'New Game' : 'Start'}</button>
+                        : <button onClick={() => { gameOver ? toggleAnimation(textBox.current as HTMLDivElement, 'animate-[fade_0.5s]') : startGame(); }} className="w-[16.25rem] h-[6rem] rounded-[1.5rem] font-bold text-3xl text-[#394760] bg-[#9FADC6] p-2 px-5">{gameOver ? 'New Game' : 'Start'}</button>
                     }
                 </div>
             </div>
