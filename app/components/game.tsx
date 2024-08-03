@@ -8,11 +8,10 @@ import Results from './results';
 
 interface GameProps {
   text: string;
-  onPlayAgain: () => void;
   onEsc: () => void;
 }
 
-export const Game = ({ text, onEsc, onPlayAgain }: GameProps) => {
+export const Game = ({ text, onEsc }: GameProps) => {
   const tokenizedText = tokenize(text);
   const { startStreaming, stopStreaming, gameStats } = useGame(tokenizedText);
   const [gameRunning, setGameRunning] = useState(false);
@@ -57,7 +56,8 @@ export const Game = ({ text, onEsc, onPlayAgain }: GameProps) => {
 
   function startGame() {
     if (showResults) {
-      onPlayAgain();
+      onEsc();
+      return;
     }
     setShowResults(false);
     setGameRunning(true);
