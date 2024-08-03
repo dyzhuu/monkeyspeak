@@ -71,7 +71,7 @@ export default function Main() {
                 <div ref={textBox} onAnimationEndCapture={() => { setGameOver(!gameOver); }} className='w-full grid'>
                     {
                         gameOver ?
-                            <Results />
+                            <Results accuracy={30} wpm={30} time={30}/>
                         : 
                             <TextBox paragraph={paragraph} />
                     }
