@@ -7,6 +7,7 @@ import io, { Socket } from 'socket.io-client';
 
 export default function TestPage() {
   const [isStreaming, setIsStreaming] = useState(false);
+  const [intervalRef, setIntervalRef] = useState<NodeJS.Timeout | null>(null);
   const [result, setResult] = useState('');
   const [ws, setWs] = useState<Socket | null>(null);
 
@@ -33,40 +34,5 @@ export default function TestPage() {
     };
   }, []);
 
-  const sendBlob = (blob: Blob) => {
-    if (ws) {
-      blob
-        .stream()
-        .getReader()
-        .read()
-        .then(({ value, done }) => {
-          if (done) return;
-          ws.emit('message', value);
-        });
-    }
-  };
-
-  const { startStream, stopStream } = useAudioStream(sendBlob);
-
-  async function startStreaming() {
-    startStream();
-    setIsStreaming(true);
-  }
-
-  async function stopStreaming() {
-    stopStream();
-    setIsStreaming(false);
-  }
-
-  return (
-    <div>
-      <Button onClick={startStreaming} disabled={isStreaming}>
-        Start Streaming
-      </Button>
-      <Button onClick={stopStreaming} disabled={!isStreaming}>
-        Stop Streaming
-      </Button>
-      <p>{result}</p>
-    </div>
-  );
+  return <div></div>;
 }

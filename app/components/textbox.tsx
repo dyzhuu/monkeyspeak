@@ -1,7 +1,17 @@
-export default function TextBox() {
-    return (
-        <div className='flex flex-col justify-center items-center'>
-            <textarea className='w-full grow p-2' placeholder='Monkey go brr...'/>
-        </div>
-    )
+'use client';
+
+import { useState } from 'react';
+
+interface TextBoxProps {
+  text: string;
+  index: number;
+}
+
+export default function TextBox({ text, index }: TextBoxProps) {
+  return (
+    <div className="overflow-y-hidden resize-none max-h-[130px] grow bg-transparent text-justify text-2xl text-[#394760] select-none">
+      <span>{text}</span>
+      {text}
+    </div>
+  );
 }
