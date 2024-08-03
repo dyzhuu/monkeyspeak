@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 
 import TextBox from './textbox';
 import Results from './results';
+import MultiplayerBars from './multiplayerBars';
 
 export default function Main() {
     const textBox = useRef<HTMLDivElement>(null);
@@ -58,7 +59,9 @@ export default function Main() {
     return (
     <div className="max-w-[75rem] min-w-[50rem] w-full flex flex-col self-center content-center justify-center grow">
       <h1 className="font-bold text-5xl text-[#9FADC6] mb-4">monkeyspeak</h1>
-            
+            <div className="flex w-full">
+                <MultiplayerBars />
+            </div>
             <div className='w-full flex flex-col justify-center items-center gap-5'>
                 <div ref={textBox} onAnimationEndCapture={() => { setGameOver(!gameOver); }} className='w-full grid'>
                     {
