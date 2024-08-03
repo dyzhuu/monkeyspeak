@@ -20,6 +20,11 @@ export default function Main() {
   const [paragraph, setParagraph] = useState(
     generateRandomParagraph(words.sentences, 1)
   );
+
+  const [accuracy, setAccuracy] = useState(0);
+  const [wpm, setWpm] = useState(0);
+  const [time, setTime] = useState(0);
+
   const { startStreaming, stopStreaming, gameStats } = useGame(
     tokenize(paragraph)
   );
@@ -72,7 +77,7 @@ export default function Main() {
       <div className="w-full flex flex-col justify-center items-center gap-5">
         <div className="w-full grid">
           {gameOver ? (
-            <Results />
+            <Results accuracy={accuracy} wpm={wpm} time={time} />
           ) : (
             <TextBox paragraph={paragraph} gameStats={gameStats} />
           )}
