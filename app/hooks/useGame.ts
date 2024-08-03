@@ -3,8 +3,6 @@ import { useAudioStream } from 'react-audio-stream';
 import { useEffect, useRef, useState } from 'react';
 import { checkSpeech, speechStats } from '@/lib/check-speech';
 import { deepgram } from '@/lib/deepgram';
-import { useRouter } from 'next/router';
-import { useAudioCapture } from './useAudioCapture';
 
 export function useGame(text: string[]) {
   const [isStreaming, setIsStreaming] = useState(false);

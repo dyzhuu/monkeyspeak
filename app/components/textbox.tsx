@@ -39,7 +39,7 @@ export default function TextBox({
   // }, [gameStats]);
 
   return (
-    <div className="h-[25vh] grow flex flex-col justify-center">
+    <div className="max-h-[25vh] grow flex flex-col justify-center">
       <div className="grow overflow-y-scroll scrollbar-hide bg-transparent text-wrap text-justify text-3xl text-[#394760] p-2">
         <span>
           <mark className="bg-transparent text-white">{spokenText}</mark>
