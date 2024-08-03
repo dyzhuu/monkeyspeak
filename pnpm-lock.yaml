@@ -56,6 +56,9 @@ dependencies:
   drizzle-zod:
     specifier: ^0.5.1
     version: 0.5.1(drizzle-orm@0.30.7)(zod@3.23.8)
+  ldrs:
+    specifier: ^1.0.2
+    version: 1.0.2
   lucide-react:
     specifier: ^0.400.0
     version: 0.400.0(react@19.0.0-rc.0)
@@ -113,6 +116,7 @@ dependencies:
   zod:
     specifier: ^3.23.8
     version: 3.23.8
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 =======
@@ -229,6 +233,8 @@ importers:
         specifier: ^3.23.8
         version: 3.23.8
 >>>>>>> main
+>>>>>>> main
+=======
 >>>>>>> main
 
 packages:
@@ -2493,6 +2499,7 @@ packages:
       sqlite3:
         optional: true
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
@@ -3314,6 +3321,8 @@ snapshots:
   '@auth/core@0.32.0':
 >>>>>>> main
 >>>>>>> main
+=======
+>>>>>>> main
     dependencies:
       '@types/react': 18.3.3
       pg: 8.12.0
@@ -3748,16 +3757,22 @@ snapshots:
     dev: false
 =======
 
-<<<<<<< HEAD
+  /ldrs@1.0.2:
+    resolution: {integrity: sha512-sYJmivdkIiHrUEqTrEWccBoLdaENpzbzkABI5rk8rRxTXrg9i2xVuDvUUuhOhJY3RmQyaoxs046pM1DCRdcIpg==}
+    dev: false
+
   /lilconfig@2.1.0:
     resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==}
     engines: {node: '>=10'}
     dev: false
+<<<<<<< HEAD
 =======
   ldrs@1.0.2: {}
 
   lilconfig@2.1.0: {}
 >>>>>>> main
+>>>>>>> main
+=======
 >>>>>>> main
 
   /lilconfig@3.1.2:
