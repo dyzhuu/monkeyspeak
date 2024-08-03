@@ -1,49 +1,22 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
-import { speechStats, tokenize } from '../../lib/check-speech';
+import { useMemo } from 'react';
 
-export default function TextBox({
-  paragraph,
-  gameStats
-}: {
-  paragraph: string;
-  gameStats: speechStats;
-}) {
-  const [spokenText, setSpokenText] = useState('');
-  const [remainingText, setRemainingText] = useState('');
+interface TextBoxProps {
+  tokenizedText: string[];
+  currentIndex: number;
+}
 
-  const [textIndex, setTextIndex] = useState(0);
+export default function TextBox({ tokenizedText, currentIndex }: TextBoxProps) {
+  const spokenText = useMemo(
+    () => tokenizedText.slice(0, currentIndex).join(' '),
+    [tokenizedText]
+  );
 
-  const wordIndexes = setIndexes();
-
-  function setIndexes() {
-    const indexes = [0];
-    for (let index = 0; index < paragraph.length; index++) {
-      if (paragraph.charAt(index) == ' ') {
-        indexes.push(index + 1);
-      }
-    }
-    indexes.push(paragraph.length);
-    return indexes;
-  }
-
-  function updateText() {
-    setSpokenText(paragraph.substring(0, textIndex));
-    if (textIndex == paragraph.length) {
-      setRemainingText('');
-    } else {
-      setRemainingText(paragraph.substring(textIndex));
-    }
-  }
-
-  useEffect(() => {
-    updateText();
-  }, [textIndex]);
-
-  useEffect(() => {
-    setTextIndex(wordIndexes[gameStats.currentIndex]);
-  }, [gameStats]);
+  const remainingText = useMemo(
+    () => tokenizedText.slice(currentIndex, tokenizedText.length + 1).join(' '),
+    [tokenizedText]
+  );
 
   // const tokenizedParagraph = useMemo(() => tokenize(paragraph), [paragraph]);
   // useEffect(() => {
@@ -58,11 +31,11 @@ export default function TextBox({
   // }, [gameStats]);
 
   return (
-    <div className="h-[25vh] grow flex flex-col justify-center">
+    <div className="max-h-[25vh] grow flex flex-col justify-center">
       <div className="grow overflow-y-scroll scrollbar-hide bg-transparent text-wrap text-justify text-3xl text-[#394760] p-2">
         <span>
           <mark className="bg-transparent text-white">{spokenText}</mark>
-        </span>
+        </span>{' '}
         <span>{remainingText}</span>
       </div>
     </div>
