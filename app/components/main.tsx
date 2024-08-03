@@ -29,9 +29,7 @@ export default function Main() {
   }
 
   function startGame() {
-    setParagraph(
-      generateRandomParagraph(require('../words.json').sentences, 1)
-    );
+    setParagraph(generateRandomParagraph());
     setTimer(0);
     startStreaming();
 
