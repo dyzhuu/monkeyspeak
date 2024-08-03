@@ -64,7 +64,7 @@ export default function Main() {
     }, [])
 
     return (
-        <div className='w-[75%] min-w-min m-16'>
+        <div className='w-full min-w-min m-16'>
             <h1 className='font-bold text-5xl text-[#9FADC6] m-2'>monkeyspeak</h1>
             
             <div className='w-full flex flex-col justify-center items-center gap-5'>
