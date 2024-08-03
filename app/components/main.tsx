@@ -54,21 +54,24 @@ export default function Main() {
     setGameOver(true);
   }
 
-  function handleKeyDown(event: KeyboardEvent) {
-    if (event.key == 'Escape') {
-      endGame();
-      document.removeEventListener('keydown', handleKeyDown);
-    }
-  }
-  useEffect(() => {
-    if (gameRunning) {
-      document.addEventListener('keydown', handleKeyDown);
-    }
-  }, [gameRunning]);
-
+  // function handleKeyDown(event: KeyboardEvent) {
+  //   if (event.key == 'Escape') {
+  //     endGame();
+  //     document.removeEventListener('keydown', handleKeyDown);
+  //   }
+  // }
   // useEffect(() => {
-  //   console.log(gameStats);
-  // }, [gameStats]);
+  //   if (gameRunning) {
+  //     document.addEventListener('keydown', handleKeyDown);
+  //   }
+  // }, [gameRunning]);
+
+  useEffect(() => {
+    console.log(gameStats);
+    if (gameStats.currentIndex == tokenize(paragraph).length) {
+      endGame();
+    }
+  }, [gameStats]);
 
   return (
     <div className="max-w-[75rem] min-w-[50rem] m-16 justify-center content-center">

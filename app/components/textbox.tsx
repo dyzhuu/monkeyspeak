@@ -13,9 +13,10 @@ export default function TextBox({
 }) {
   const [spokenText, setSpokenText] = useState('');
   const [remainingText, setRemainingText] = useState('');
-  console.log(gameStats);
+
   const [textIndex, setTextIndex] = useState(0);
-  const [wordIndexes, setWordIndexes] = useState<number[]>(setIndexes());
+
+  const wordIndexes = setIndexes();
 
   function setIndexes() {
     const indexes = [0];
@@ -24,16 +25,17 @@ export default function TextBox({
         indexes.push(index + 1);
       }
     }
+    indexes.push(paragraph.length);
     return indexes;
   }
 
   function updateText() {
     setSpokenText(paragraph.substring(0, textIndex));
-    setRemainingText(paragraph.substring(textIndex));
-  }
-
-  function updateIndexes() {
-    setTextIndex((index) => index + 1);
+    if (textIndex == paragraph.length) {
+      setRemainingText('');
+    } else {
+      setRemainingText(paragraph.substring(textIndex));
+    }
   }
 
   useEffect(() => {
@@ -41,9 +43,16 @@ export default function TextBox({
   }, [textIndex]);
 
   useEffect(() => {
-    document.removeEventListener('keydown', updateIndexes);
-    document.addEventListener('keydown', updateIndexes);
-  }, []);
+    setTextIndex(wordIndexes[gameStats.currentIndex]);
+  }, [gameStats]);
+
+  // function updateIndexes() {
+  //   setTextIndex((index) => index + 1);
+  // }
+  // useEffect(() => {
+  //   document.removeEventListener('keydown', updateIndexes);
+  //   document.addEventListener('keydown', updateIndexes);
+  // }, []);
 
   // const tokenizedParagraph = useMemo(() => tokenize(paragraph), [paragraph]);
   // useEffect(() => {
