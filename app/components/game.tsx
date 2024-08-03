@@ -78,7 +78,7 @@ export const Game = ({ text, onEsc }: GameProps) => {
           <Timer />
         ) : (
           <button
-            className="w-[16.25rem] h-[6rem] rounded-[1.5rem] font-bold text-3xl text-[#394760] bg-[#9FADC6] p-2 px-5"
+            className="w-[16.25rem] rounded-[1.5rem] font-bold text-3xl text-[#394760] bg-[#9FADC6] p-2 px-5"
             onClick={startGame}
           >
             {showResults ? 'New Game' : 'Start'}
