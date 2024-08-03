@@ -26,20 +26,8 @@ export default function TextBox({
     );
   }, [gameStats]);
 
-  // const tokenizedParagraph = useMemo(() => tokenize(paragraph), [paragraph]);
-  // useEffect(() => {
-  //   setSpokenText(
-  //     tokenizedParagraph.slice(0, gameStats.currentIndex).join(' ')
-  //   );
-  //   setRemainingText(
-  //     tokenizedParagraph
-  //       .slice(gameStats.currentIndex + 1, tokenizedParagraph.length)
-  //       .join(' ')
-  //   );
-  // }, [gameStats]);
-
   return (
-    <div className="max-h-[25vh] grow flex flex-col justify-center">
+    <div className="grow flex flex-col justify-center">
       <div className="grow overflow-y-scroll scrollbar-hide bg-transparent text-wrap text-justify text-3xl text-[#394760] p-2">
         <span>
           <mark className="bg-transparent text-white">{spokenText}</mark>

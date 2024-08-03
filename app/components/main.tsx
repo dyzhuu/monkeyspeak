@@ -59,25 +59,25 @@ export default function Main() {
   }, [gameRunning]);
 
   return (
-    <div className="max-w-[75rem] min-w-[50rem] m-16 justify-center content-center">
+    <div className="flex flex-col justify-center content-center">
       <h1 className="font-bold text-5xl text-[#9FADC6] m-2">monkeyspeak</h1>
 
-      <div className="w-full flex flex-col justify-center items-center gap-5">
+      <div className="min-h-[20vh] flex flex-col justify-center items-center gap-5">
         {isMounted && (
-          <Content
-            timer={timer}
-            setGameEnd={endGame}
-            gameRunning={gameRunning}
-            gameOver={gameOver}
-            paragraph={paragraph}
-          />
+          <div className="min-h-[20vh] flex justify-center items-center">
+            <Content
+              timer={timer}
+              setGameEnd={endGame}
+              gameRunning={gameRunning}
+              gameOver={gameOver}
+              paragraph={paragraph}
+            />
+          </div>
         )}
 
         <div className="flex justify-center items-center">
           {gameRunning ? (
-            <h2 className="rounded-[5rem] font-bold text-4xl text-[#9FADC6]">
-              {timer}
-            </h2>
+            <h2 className="font-bold text-3xl text-[#9FADC6] p-3">{timer}</h2>
           ) : (
             <button
               onClick={() => {
