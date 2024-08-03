@@ -5,7 +5,7 @@ export function tokenize(text: string): string[] {
   return res.split(' ').filter((w) => w !== '');
 }
 
-type speechStats = {
+export type speechStats = {
   currentIndex: number;
   total: number;
   correct: number;
