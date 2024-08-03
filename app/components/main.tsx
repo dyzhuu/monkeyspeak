@@ -21,9 +21,7 @@ import words from '../words.json';
 export default function Main() {
   const [gameOver, setGameOver] = useState(false);
   const [gameRunning, setGameRunning] = useState(false);
-  const [paragraph, setParagraph] = useState(
-    generateRandomParagraph(words.sentences, 1)
-  );
+  const [paragraph, setParagraph] = useState(generateRandomParagraph());
 
   const [accuracy, setAccuracy] = useState(0);
   const [wpm, setWpm] = useState(0);
@@ -97,7 +95,7 @@ export default function Main() {
       <div className="w-full flex flex-col justify-center items-center gap-5">
         <div className="w-full grid">
           {gameOver ? (
-            <Results accuracy={accuracy} wpm={wpm} time={timer} />
+            <Results time={timer} gameStats={gameStats} />
           ) : (
             <TextBox paragraph={paragraph} gameStats={gameStats} />
           )}
