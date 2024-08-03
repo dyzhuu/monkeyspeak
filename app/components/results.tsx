@@ -1,10 +1,8 @@
 
 import { useState } from 'react';
 
-export default function Results() {
-    const [accuracy, setAccuracy] = useState(0);
-    const [wpm, setWpm] = useState(100);
-    const [time, setTime] = useState(0);
+export default function Results({accuracy, wpm, time} : {accuracy: number, wpm: number, time: number}) {
+
 
     return (
         <div className='grid grid-cols-3 p-20 text-center'>
