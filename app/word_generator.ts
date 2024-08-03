@@ -29,5 +29,3 @@ function generateRandomParagraph(sentences: string[], numOfSentences: number) {
   let res: string = chosen.join('. ');
   return res + '.';
 }
-
-console.log(generateRandomParagraph(words.sentences, 6));

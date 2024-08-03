@@ -1,4 +1,4 @@
-function removePunctuation(text: string): string[] {
+export function tokenize(text: string): string[] {
   // regex remove anything that's not alnum
   const res = text.replace(/[^\w\s]|_/g, ' ');
 
@@ -14,26 +14,23 @@ type speechStats = {
 
 export function checkSpeech({
   baseText,
-  speech,
+  speechText,
   currentIndex
 }: {
-  baseText: string;
-  speech: string;
+  baseText: string[];
+  speechText: string;
   currentIndex: number;
 }): speechStats {
-  const words: string[] = removePunctuation(baseText);
-  const spoke: string[] = removePunctuation(speech);
+  const spokenText: string[] = tokenize(speechText);
 
-  const total = spoke.length;
+  const total = spokenText.length;
   let correct = 0;
 
-  for (let i = 0; i < spoke.length; i++) {
-    if (spoke[i].toLowerCase() == words[currentIndex].toLowerCase()) {
+  for (let i = 0; i < spokenText.length; i++) {
+    if (spokenText[i].toLowerCase() == baseText[currentIndex].toLowerCase()) {
       correct++;
       currentIndex++;
-      console.log('MATCHED! ' + spoke[i]);
     }
-    console.log(words[currentIndex]);
   }
 
   return {
@@ -43,23 +40,3 @@ export function checkSpeech({
     incorrect: total - correct
   };
 }
-
-let currentIndex = 0;
-let stats = checkSpeech({
-  baseText: 'BRUHUAS SASD 11 ash hello bruh? twenty-seven, bro!.',
-  speech: 'hallo',
-  currentIndex: 0
-});
-stats = checkSpeech({
-  baseText: 'BRUHUAS SASD 11 ash hello bruh? twenty-seven, bro!.',
-  speech: 'BRUHUAS hello SASD 11',
-  currentIndex: 0
-});
-
-console.log(stats);
-
-stats = checkSpeech({
-  baseText: 'BRUHUAS SASD 11 ash hello bruh? twenty-seven, bro!.',
-  speech: 'hallo',
-  currentIndex: 0
-});
