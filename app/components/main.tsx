@@ -5,12 +5,15 @@ import { useRef, useState, useEffect } from 'react';
 import TextBox from './textbox';
 import Results from './results';
 
+import { generateRandomParagraph } from '../hooks/word_generator';
+
 export default function Main() {
     const textBox = useRef<HTMLDivElement>(null);
     const [timerInterval, setTimerInterval] = useState<NodeJS.Timeout>();
     const [gameOver, setGameOver] = useState(false);
     const [gameRunning, setGameRunning] = useState(false);
     const [timer, setTimer] = useState(0);
+    const [paragraph, setParagraph] = useState('');
 
     function toggleAnimation(element: HTMLElement, animation: string) {
         element.classList.remove(animation);
@@ -54,9 +57,13 @@ export default function Main() {
             clearInterval(timerInterval);
         };
     }, [gameRunning]);
+    
+    useEffect(() => {
+        setParagraph(generateRandomParagraph(require('../words.json').sentences, 1));
+    }, [])
 
     return (
-        <div className='max-w-[75%] min-w-min m-16'>
+        <div className='w-[75%] min-w-min m-16'>
             <h1 className='font-bold text-5xl text-[#9FADC6] m-2'>monkeyspeak</h1>
             
             <div className='w-full flex flex-col justify-center items-center gap-5'>
@@ -65,7 +72,7 @@ export default function Main() {
                         gameOver ?
                             <Results />
                         : 
-                            <TextBox />
+                            <TextBox paragraph={paragraph} />
                     }
                 </div>
 
