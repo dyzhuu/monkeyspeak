@@ -59,6 +59,9 @@ importers:
       drizzle-zod:
         specifier: ^0.5.1
         version: 0.5.1(drizzle-orm@0.30.7(@types/react@18.3.3)(pg@8.12.0)(postgres@3.4.4)(react@19.0.0-rc.0))(zod@3.23.8)
+      ldrs:
+        specifier: ^1.0.2
+        version: 1.0.2
       lucide-react:
         specifier: ^0.400.0
         version: 0.400.0(react@19.0.0-rc.0)
@@ -1482,6 +1485,9 @@ packages:
   json-diff@0.9.0:
     resolution: {integrity: sha512-cVnggDrVkAAA3OvFfHpFEhOnmcsUpleEKq4d4O8sQWWSH40MBrWstKigVB1kGrgLWzuom+7rRdaCsnBD6VyObQ==}
     hasBin: true
+
+  ldrs@1.0.2:
+    resolution: {integrity: sha512-sYJmivdkIiHrUEqTrEWccBoLdaENpzbzkABI5rk8rRxTXrg9i2xVuDvUUuhOhJY3RmQyaoxs046pM1DCRdcIpg==}
 
   lilconfig@2.1.0:
     resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==}
@@ -3244,6 +3250,8 @@ snapshots:
       cli-color: 2.0.4
       difflib: 0.2.4
       dreamopt: 0.8.0
+
+  ldrs@1.0.2: {}
 
   lilconfig@2.1.0: {}
 
