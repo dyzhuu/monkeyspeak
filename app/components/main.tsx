@@ -12,6 +12,9 @@ import { generateRandomParagraph } from '../hooks/word_generator';
 import { statsCalculator } from '@/lib/statsCalculator';
 import { tokenize } from '@/lib/check-speech';
 import { useGame } from '../hooks/useGame';
+import { Button } from '@/components/ui/button';
+import { Game } from './game';
+import { useAudioStream } from 'react-audio-stream';
 
 import words from '../words.json';
 

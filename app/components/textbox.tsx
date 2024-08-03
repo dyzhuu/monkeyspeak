@@ -62,7 +62,7 @@ export default function TextBox({
       <div className="grow overflow-y-scroll scrollbar-hide bg-transparent text-wrap text-justify text-3xl text-[#394760] p-2">
         <span>
           <mark className="bg-transparent text-white">{spokenText}</mark>
-        </span>
+        </span>{' '}
         <span>{remainingText}</span>
       </div>
     </div>
