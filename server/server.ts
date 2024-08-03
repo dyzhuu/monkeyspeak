@@ -19,6 +19,11 @@ wss.on('connection', (ws) => {
 
   connection.on(LiveTranscriptionEvents.Open, () => {
     console.log('Deepgram Connection opened.');
+    setInterval(() => {
+      const keepAliveMsg = JSON.stringify({ type: "KeepAlive" });
+      connection.send(keepAliveMsg);
+      console.log("Sent KeepAlive message");
+  }, 3000); // Sending KeepAlive messages every 3 seconds
   });
 
   connection.on(LiveTranscriptionEvents.Transcript, (data) => {
