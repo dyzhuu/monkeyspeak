@@ -59,12 +59,12 @@ export function useGame(text: string[]) {
           connection.disconnect();
         }
 
-        setGameStats({
+        setGameStats((prev) => ({
           currentIndex: stats.currentIndex,
-          total: stats.total,
-          correct: stats.correct,
-          incorrect: stats.incorrect
-        });
+          total: stats.total + prev.total,
+          correct: stats.correct + prev.correct,
+          incorrect: stats.incorrect + prev.incorrect
+        }));
 
         setResult((res) => res + ' ' + message);
       });

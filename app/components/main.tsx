@@ -26,12 +26,7 @@ export default function Main() {
     setIsMounted(true);
   });
 
-  function handleFinished() {
-    setGameRunning(false);
-    setText(generateRandomParagraph());
-  }
-
-  function handleReset() {
+  function handleEsc() {
     setIsMounted(false);
     setText(generateRandomParagraph());
     setTimeout(() => setIsMounted(true), 0);
@@ -43,7 +38,11 @@ export default function Main() {
 
       <div className="w-full flex flex-col justify-center items-center gap-5">
         {isMounted && (
-          <Game text={text} onFinished={handleFinished} onReset={handleReset} />
+          <Game
+            text={text}
+            onEsc={handleEsc}
+            onPlayAgain={() => setText(generateRandomParagraph())}
+          />
         )}
       </div>
     </div>
