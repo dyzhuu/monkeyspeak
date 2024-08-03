@@ -5,7 +5,7 @@ import { pgTable, serial, text } from 'drizzle-orm/pg-core';
 export const rooms = pgTable('rooms', {
   id: serial('id').primaryKey(),
   roomId: text('room_id').notNull().unique(),
-  inProgress: boolean('in_progress').notNull().default(false),
+  started: boolean('in_progress').notNull().default(false),
   private: boolean('private').notNull().default(false)
 });
 

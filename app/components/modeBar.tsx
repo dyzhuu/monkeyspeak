@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { useState } from 'react';
 
 export default function ModeBar() {
@@ -61,12 +62,14 @@ export default function ModeBar() {
         >
           Single Player
         </button>
-        <button
-          onClick={() => changePlayer('multi')}
-          className={`font-bold text-2xl ${player == 'multi' ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
-        >
-          Multiplayer
-        </button>
+        <Link href="/multiplayer">
+          <button
+            onClick={() => changePlayer('multi')}
+            className={`font-bold text-2xl ${player == 'multi' ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
+          >
+            Multiplayer
+          </button>
+        </Link>
       </div>
     </div>
   );
