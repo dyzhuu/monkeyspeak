@@ -1,16 +1,11 @@
+import { speechStats } from '@/types';
+
 export function tokenize(text: string): string[] {
   // regex remove anything that's not alnum
   const res = text.replace(/[^\w\s]|_/g, ' ');
 
   return res.split(' ').filter((w) => w !== '');
 }
-
-export type speechStats = {
-  currentIndex: number;
-  total: number;
-  correct: number;
-  incorrect: number;
-};
 
 export function checkSpeech({
   baseText,

@@ -1,6 +1,9 @@
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
+import { addUserToRoom, deleteUser, getOrCreateRoomById } from './services';
+
+const GLOBALROOMID = '';
 
 const app = express();
 const server = http.createServer(app);
@@ -10,22 +13,46 @@ const gameNamespace = io.of('/game');
 
 gameNamespace.on('connection', (socket) => {
   console.log('A user connected to the game namespace');
-  socket.on('disconnect', () => {
+
+  socket.on('disconnect', async () => {
     console.log('user disconnected from /game', socket.id);
+
+    await deleteUser(socket.id);
+
+    // get room
+    gameNamespace.to(GLOBALROOMID).emit('playerDisconnect', {
+      userId: socket.id
+    });
   });
 
-  socket.on('joinRoom', (room) => {
-    socket.join(room);
-    gameNamespace.to(room).emit('newUser', socket.id);
+  socket.on('joinRoom', async (roomId) => {
+    //TODO: capacity of 4 players
+    const room = await getOrCreateRoomById(roomId);
+
+    if (room.players.length >= 4) {
+      return;
+    }
+
+    await addUserToRoom(roomId, socket.id);
+
+    socket.join(GLOBALROOMID);
+
+    // pings player with room code -- confirms joined.
+    socket.emit('joinedLobby', {
+      roomId: GLOBALROOMID,
+      playerIds: room.players.map((player) => player.socketId)
+    });
+
+    gameNamespace.to(roomId).emit('newUser', {
+      userId: socket.id
+    });
   });
+
   socket.on('speakUpdate', (data) => {
-    const { room, message } = data;
+    const { roomId, currentIndex } = data;
     gameNamespace
-      .to(room)
-      .emit('speakUpdate', { userId: socket.id, currentIndex: message });
-  });
-  socket.on('finished', (room) => {
-    gameNamespace.to(room).emit('finished', socket.id);
+      .to(roomId)
+      .emit('speakUpdate', { userId: socket.id, currentIndex });
   });
 });
 

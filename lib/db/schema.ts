@@ -1,21 +1,14 @@
-import {
-  integer,
-  numeric,
-  pgEnum,
-  pgTable,
-  serial,
-  text,
-  timestamp
-} from 'drizzle-orm/pg-core';
+import { boolean } from 'drizzle-orm/pg-core';
+import { integer, pgTable, serial, text } from 'drizzle-orm/pg-core';
 
-export const statusEnum = pgEnum('status', ['active', 'inactive', 'archived']);
+export const rooms = pgTable('rooms', {
+  id: text('id').primaryKey(),
+  inProgress: boolean('in_progress').notNull().default(false),
+  private: boolean('private').notNull().default(false)
+});
 
-export const products = pgTable('products', {
+export const users = pgTable('users', {
   id: serial('id').primaryKey(),
-  imageUrl: text('image_url').notNull(),
   name: text('name').notNull(),
-  status: statusEnum('status').notNull(),
-  price: numeric('price', { precision: 10, scale: 2 }).notNull(),
-  stock: integer('stock').notNull(),
-  availableAt: timestamp('available_at').notNull()
+  email: text('email').notNull()
 });

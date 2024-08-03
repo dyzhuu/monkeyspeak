@@ -2,8 +2,9 @@ import { Button } from '@/components/ui/button';
 import { ListenLiveClient, LiveTranscriptionEvents } from '@deepgram/sdk';
 import { useAudioStream } from 'react-audio-stream';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { checkSpeech, speechStats, tokenize } from '@/lib/check-speech';
+import { checkSpeech, tokenize } from '@/lib/check-speech';
 import { deepgram } from '@/lib/deepgram';
+import { speechStats } from '@/types';
 
 export function useGame(text: string[]) {
   const [isStreaming, setIsStreaming] = useState(false);
