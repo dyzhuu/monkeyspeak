@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 
 import TextBox from './textbox';
 import Results from './results';
+import MultiplayerBars from './multiplayerBars';
 
 import { generateRandomParagraph } from '../hooks/word_generator';
 
@@ -76,11 +77,11 @@ export default function Main() {
                     }
                 </div>
 
-                <div className='w-full flex justify-center items-center'>
+                <div className="flex justify-center items-center">
                     {
                         gameRunning ?
                             <h2 className='rounded-[5rem] font-bold text-4xl text-[#9FADC6]'>{timer}</h2>
-                        : <button onClick={() => { gameOver ? toggleAnimation(textBox.current as HTMLDivElement, 'animate-[fade_0.5s]') : startGame(); }} className='rounded-[3rem] font-bold text-2xl text-[#394760] bg-[#9FADC6] p-2 px-5'>{gameOver ? 'New Game' : 'Start'}</button>
+                        : <button onClick={() => { gameOver ? toggleAnimation(textBox.current as HTMLDivElement, 'animate-[fade_0.5s]') : startGame(); }} className="w-[16.25rem] h-[6rem] rounded-[1.5rem] font-bold text-3xl text-[#394760] bg-[#9FADC6] p-2 px-5">{gameOver ? 'New Game' : 'Start'}</button>
                     }
                 </div>
             </div>
