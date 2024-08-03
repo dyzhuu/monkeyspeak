@@ -8,43 +8,56 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function TestPage() {
   const [isStreaming, setIsStreaming] = useState(false);
+  const [intervalRef, setIntervalRef] = useState<NodeJS.Timeout | null>(null);
   const [result, setResult] = useState('');
-  const connectionRef = useRef<ListenLiveClient>(
-    deepgram.listen.live({
-      model: 'nova-2',
-      language: 'en-US',
-      smart_format: true
-    })
-  );
+  const [ws, setWs] = useState<ListenLiveClient>();
 
   useEffect(() => {
+    const connection = deepgram.listen.live({
+      model: 'nova-2-general',
+      language: 'en-US',
+      smart_format: false,
+      no_delay: true
+    });
+
+    setWs(connection);
+
     // Define the event handlers
     const handleOpen = () => {
       console.log('Connection opened.');
 
-      connectionRef.current?.on(LiveTranscriptionEvents.Close, () => {
+      setIntervalRef(
+        setInterval(() => {
+          const keepAliveMsg = JSON.stringify({ type: 'KeepAlive' });
+          connection.send(keepAliveMsg);
+          console.log('Sent KeepAlive message');
+        }, 3000)
+      );
+
+      connection?.on(LiveTranscriptionEvents.Close, () => {
         console.log('Connection closed.');
       });
 
-      connectionRef.current?.on(LiveTranscriptionEvents.Transcript, (data) => {
+      connection?.on(LiveTranscriptionEvents.Transcript, (data) => {
         setResult((res) => res + ' ' + data.channel.alternatives[0].transcript);
       });
 
-      connectionRef.current?.on(LiveTranscriptionEvents.Metadata, (data) => {
+      connection?.on(LiveTranscriptionEvents.Metadata, (data) => {
         console.log(data);
       });
 
-      connectionRef.current?.on(LiveTranscriptionEvents.Error, (err) => {
+      connection?.on(LiveTranscriptionEvents.Error, (err) => {
         console.error(err);
       });
     };
 
     /* Initialize your WebSocket connection */
-    connectionRef.current.on(LiveTranscriptionEvents.Open, handleOpen);
+    connection.on(LiveTranscriptionEvents.Open, handleOpen);
 
     // Cleanup
     return () => {
-      connectionRef.current?.removeAllListeners(); // Or handle specific removals
+      connection.removeAllListeners(); // Or handle specific removals
+      setWs(undefined);
     };
   }, []);
 
@@ -60,7 +73,7 @@ export default function TestPage() {
         if (done) {
           return;
         }
-        connectionRef.current?.send(value);
+        ws?.send(value);
       });
   };
   const { startStream, stopStream } = useAudioStream(sendBlob);
