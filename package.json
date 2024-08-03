@@ -26,6 +26,7 @@
     "drizzle-kit": "^0.21.1",
     "drizzle-orm": "^0.30.7",
     "drizzle-zod": "^0.5.1",
+    "ldrs": "^1.0.2",
     "lucide-react": "^0.400.0",
     "next": "15.0.0-canary.57",
     "next-auth": "5.0.0-beta.19",

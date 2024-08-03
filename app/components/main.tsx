@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from 'react';
 import TextBox from './textbox';
 import Results from './results';
 import MultiplayerBars from './multiplayerBars';
+import Loading from './loading';
 
 import { generateRandomParagraph } from '../hooks/word_generator';
 import { tokenize } from '@/lib/check-speech';
@@ -70,7 +71,7 @@ export default function Main() {
   }, [gameRunning]);
 
   return (
-    <div className="w-[75%] min-w-min m-16">
+    <div className="max-w-[75rem] min-w-[50rem] m-16 justify-center content-center">
       <h1 className="font-bold text-5xl text-[#9FADC6] m-2">monkeyspeak</h1>
 
       <div className="w-full flex flex-col justify-center items-center gap-5">
