@@ -1,23 +1,25 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import TextBox from './textbox';
 import Results from './results';
+import Timer from './timer';
 import MultiplayerBars from './multiplayerBars';
 import Loading from './loading';
 
 import { generateRandomParagraph } from '../hooks/word_generator';
-import { tokenize } from '@/lib/check-speech';
+import { speechStats, tokenize } from '@/lib/check-speech';
 import { useGame } from '../hooks/useGame';
 
+const words = require('../words.json');
+
 export default function Main() {
-  const textBox = useRef<HTMLDivElement>(null);
-  const [timerInterval, setTimerInterval] = useState<NodeJS.Timeout>();
   const [gameOver, setGameOver] = useState(false);
   const [gameRunning, setGameRunning] = useState(false);
-  const [timer, setTimer] = useState(0);
-  const [paragraph, setParagraph] = useState('');
+  const [paragraph, setParagraph] = useState(
+    generateRandomParagraph(words.sentences, 1)
+  );
   const { startStreaming, stopStreaming, gameStats } = useGame(
     tokenize(paragraph)
   );
@@ -28,83 +30,63 @@ export default function Main() {
     element.classList.add(animation);
   }
 
+  function resetGame() {
+    setParagraph(generateRandomParagraph(words.sentences, 1));
+
+    setGameOver(false);
+  }
+
   function startGame() {
-    setParagraph(
-      generateRandomParagraph(require('../words.json').sentences, 1)
-    );
-    setTimer(0);
     startStreaming();
 
     setGameRunning(true);
-    setGameOver(false);
   }
 
   function endGame() {
     stopStreaming();
+
     setGameRunning(false);
+    setGameOver(true);
   }
 
   function handleKeyDown(event: KeyboardEvent) {
-    if (event.key == 'Escape' && gameRunning) {
-      toggleAnimation(textBox.current as HTMLDivElement, 'animate-[fade_0.5s]');
-
+    if (event.key == 'Escape') {
       endGame();
-
       document.removeEventListener('keydown', handleKeyDown);
     }
   }
-
   useEffect(() => {
     if (gameRunning) {
       document.addEventListener('keydown', handleKeyDown);
-
-      setTimerInterval(
-        setInterval(() => {
-          setTimer((prevTimer) => prevTimer + 1);
-        }, 1000)
-      );
     }
-
-    return () => {
-      clearInterval(timerInterval);
-    };
   }, [gameRunning]);
+
+  // useEffect(() => {
+  //   console.log(gameStats);
+  // }, [gameStats]);
 
   return (
     <div className="max-w-[75rem] min-w-[50rem] m-16 justify-center content-center">
       <h1 className="font-bold text-5xl text-[#9FADC6] m-2">monkeyspeak</h1>
 
       <div className="w-full flex flex-col justify-center items-center gap-5">
-        <div
-          ref={textBox}
-          onAnimationEndCapture={() => {
-            setGameOver(!gameOver);
-          }}
-          className="w-full grid"
-        >
+        <div className="w-full grid">
           {gameOver ? (
             <Results />
           ) : (
-            <TextBox gameStats={gameStats} paragraph={paragraph} />
+            <TextBox paragraph={paragraph} gameStats={gameStats} />
           )}
         </div>
 
         <div className="flex justify-center items-center">
           {gameRunning ? (
-            <h2 className="rounded-[5rem] font-bold text-4xl text-[#9FADC6]">
-              {timer}
-            </h2>
+            <Timer />
           ) : (
             <button
               onClick={() => {
-                gameOver
-                  ? toggleAnimation(
-                      textBox.current as HTMLDivElement,
-                      'animate-[fade_0.5s]'
-                    )
-                  : startGame();
+                gameOver ? resetGame() : startGame();
               }}
-              className="w-[16.25rem] h-[6rem] rounded-[1.5rem] font-bold text-3xl text-[#394760] bg-[#9FADC6] p-2 px-5"
+              className="rounded-[1.5rem] font-bold text-3xl text-[#394760] bg-[#9FADC6] p-3 px-6"
             >
               {gameOver ? 'New Game' : 'Start'}
             </button>

@@ -11,40 +11,51 @@ export default function TextBox({
   paragraph: string;
   gameStats: speechStats;
 }) {
-  const tokenizedParagraph = useMemo(() => tokenize(paragraph), [paragraph]);
+  const [spokenText, setSpokenText] = useState('');
+  const [remainingText, setRemainingText] = useState('');
+  console.log(gameStats);
+  const [textIndex, setTextIndex] = useState(0);
+  const [wordIndexes, setWordIndexes] = useState<number[]>(setIndexes());
 
-  // const wordIndexes = useMemo(() => {
-  //   const tempIndexes = [];
-  //   for (let index = 0; index < paragraph.length; index++) {
-  //     if (paragraph.charAt(index) == ' ') {
-  //       tempIndexes.push(index + 1);
-  //     }
-  //   }
-  //   return tempIndexes;
-  // }, [paragraph]);
+  function setIndexes() {
+    const indexes = [0];
+    for (let index = 0; index < paragraph.length; index++) {
+      if (paragraph.charAt(index) == ' ') {
+        indexes.push(index + 1);
+      }
+    }
+    return indexes;
+  }
 
-  const spokenText = tokenizedParagraph
-    .slice(0, gameStats.currentIndex)
-    .join(' ');
+  function updateText() {
+    setSpokenText(paragraph.substring(0, textIndex));
+    setRemainingText(paragraph.substring(textIndex));
+  }
 
-  const remainingText = tokenizedParagraph
-    .slice(gameStats.currentIndex + 1, tokenizedParagraph.length)
-    .join(' ');
+  function updateIndexes() {
+    setTextIndex((index) => index + 1);
+  }
 
-  // function updateText() {
-  //   setSpokenText(paragraph.substring(0, textIndex));
-  //   setRemainingText(paragraph.substring(textIndex));
-  // }
+  useEffect(() => {
+    updateText();
+  }, [textIndex]);
 
+  useEffect(() => {
+    document.removeEventListener('keydown', updateIndexes);
+    document.addEventListener('keydown', updateIndexes);
+  }, []);
+
+  // const tokenizedParagraph = useMemo(() => tokenize(paragraph), [paragraph]);
   // useEffect(() => {
-  //   updateText();
-  // }, [textIndex]);
-
-  // useEffect(() => {
-  //   document.addEventListener('keydown', (event) => {
-  //     setTextIndex((index) => index + 1);
-  //   });
-  // }, []);
+  //   setSpokenText(
+  //     tokenizedParagraph.slice(0, gameStats.currentIndex).join(' ')
+  //   );
+  //   setRemainingText(
+  //     tokenizedParagraph
+  //       .slice(gameStats.currentIndex + 1, tokenizedParagraph.length)
+  //       .join(' ')
+  //   );
+  // }, [gameStats]);
 
   return (
     <div className="h-[25vh] grow flex flex-col justify-center">
@@ -52,7 +63,7 @@ export default function TextBox({
         <span>
           <mark className="bg-transparent text-white">{spokenText}</mark>
         </span>
-        <span>{remainingText ? remainingText : paragraph}</span>
+        <span>{remainingText}</span>
       </div>
     </div>
   );
