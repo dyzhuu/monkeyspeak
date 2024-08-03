@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from 'react';
 import TextBox from './textbox';
 import Results from './results';
 import MultiplayerBars from './multiplayerBars';
+import Loading from './loading';
 
 import { generateRandomParagraph } from '../hooks/word_generator';
 
@@ -66,7 +67,6 @@ export default function Main() {
     return (
         <div className='max-w-[75rem] min-w-[50rem] m-16 justify-center content-center'>
             <h1 className='font-bold text-5xl text-[#9FADC6] m-2'>monkeyspeak</h1>
-            <MultiplayerBars />
             <div className='w-full flex flex-col justify-center items-center gap-5'>
                 <div ref={textBox} onAnimationEndCapture={() => { setGameOver(!gameOver); }} className='w-full grid'>
                     {
