@@ -1,30 +1,35 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { tokenize } from '../../lib/check-speech';
 
-export default function TextBox() {
-    const spokenRef = useRef<HTMLSpanElement>(null);
-    const textBoxRef = useRef<HTMLDivElement>(null);
-    const [spokenText, setSpokenText] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ');
-    const [remainingText, setRemainingText] = useState(
-        'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    );
+export default function TextBox({ paragraph } : { paragraph: string }) {
+    const [textIndex, setTextIndex] = useState(0);
+    const [spokenText, setSpokenText] = useState('');
+    const [remainingText, setRemainingText] = useState('');
 
-    function hi() {
-        const spokenDiv = spokenRef.current as HTMLSpanElement;
-        const textBox = textBoxRef.current as HTMLDivElement;
+    const [wordIndexes, setWordIndexes] = useState<number[]>([]);
 
-        if (spokenDiv.clientHeight > textBox.clientHeight / 2) {
-            console.log(spokenDiv.clientHeight);
-            console.log(textBox.clientHeight);
-        }
+    function updateText() {
+      setSpokenText(paragraph.substring(0, textIndex));
+      setRemainingText(paragraph.substring(textIndex));
     }
 
+    useEffect(() => {
+      updateText();
+    }, [textIndex]);
+
+    useEffect(() => {
+      document.addEventListener('keydown', (event) => {
+        setTextIndex((index) =>  index + 1);
+      });
+    }, [])
+
     return (
-        <div className='max-h-[25vh] grow flex flex-col justify-center'>
-            <div ref={textBoxRef} className='grow overflow-y-scroll bg-transparent text-wrap text-justify text-3xl text-[#394760] p-2'>
-                <span ref={spokenRef} className='text-red-600'>{spokenText}</span>
-                <span>{remainingText}</span>
+        <div className='h-[25vh] grow flex flex-col justify-center'>
+            <div className='grow overflow-y-scroll scrollbar-hide bg-transparent text-wrap text-justify text-3xl text-[#394760] p-2'>
+                <span><mark className='bg-transparent text-white'>{spokenText}</mark></span>
+                <span>{remainingText ? remainingText : paragraph}</span>
             </div>
         </div>
     );
