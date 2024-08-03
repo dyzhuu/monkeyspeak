@@ -47,7 +47,7 @@ export default function Main() {
   }, [gameRunning]);
 
   return (
-    <div className="flex flex-col justify-center px-20 grow">
+    <div className="max-w-[75rem] min-w-[50rem] w-full flex flex-col self-center content-center justify-center grow">
       <h1 className="font-bold text-5xl text-[#9FADC6] mb-4">monkeyspeak</h1>
 
       <div
@@ -61,7 +61,7 @@ export default function Main() {
 
       <div className="flex justify-center items-center">
         {gameRunning ? (
-          <h2 className="rounded-[5rem] font-bold text-4xl text-[#9FADC6]">
+          <h2 className="rounded-[1.5rem] font-bold text-4xl text-[#9FADC6]">
             {timer}
           </h2>
         ) : (
@@ -69,7 +69,7 @@ export default function Main() {
             onClick={() => {
               gameOver ? setGameOver(false) : startGame();
             }}
-            className="rounded-[5rem] font-bold text-2xl text-[#394760] bg-[#9FADC6] p-2 px-5"
+            className="w-[16.25rem] h-[6rem] rounded-[1.5rem] font-bold text-3xl text-[#394760] bg-[#9FADC6] p-2 px-5"
           >
             {gameOver ? 'Restart' : 'Start'}
           </button>
