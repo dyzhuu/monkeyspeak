@@ -1,10 +1,10 @@
 import { useGame } from '../hooks/useGame';
 import { tokenize } from '@/lib/check-speech';
 import TextBox from './textbox';
-import { Button } from '@/components/ui/button';
-import { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import React from 'react';
 import Results from './results';
+import Timer from './timer';
 
 interface GameProps {
   text: string;
@@ -75,15 +75,13 @@ export const Game = ({ text, onEsc }: GameProps) => {
       {showResults && <Results time={time} gameStats={gameStats} />}
       <div className="w-full flex justify-center">
         {gameRunning ? (
-          <h2 className="rounded-[5rem] font-bold text-4xl text-[#9FADC6]">
-            {time}
-          </h2>
+          <Timer />
         ) : (
           <button
             className="w-[16.25rem] h-[6rem] rounded-[1.5rem] font-bold text-3xl text-[#394760] bg-[#9FADC6] p-2 px-5"
             onClick={startGame}
           >
-            {showResults ? 'Play Again' : 'Start'}
+            {showResults ? 'New Game' : 'Start'}
           </button>
         )}
       </div>

@@ -1,8 +1,12 @@
 export function tokenize(text: string): string[] {
   // regex remove anything that's not alnum
-  const res = text.replace(/[^\w\s]|_/g, ' ');
+  const withoutapos = text.replace(/'/g, '');
+  const res = withoutapos.replace(/[^\w\s]|_/g, ' ');
 
-  return res.split(' ').filter((w) => w !== '');
+  return res
+    .toLowerCase()
+    .split(' ')
+    .filter((w) => w !== '');
 }
 
 export type speechStats = {
