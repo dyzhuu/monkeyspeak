@@ -1,14 +1,24 @@
-import TextBox from './textbox';
+
+import { useState } from 'react';
 
 export default function Results() {
-    return (
-        <div className='flex flex-col justify-center items-center p-3 gap-3 bg-gray-400'>
-            <h1 className='font-bold text-white text-3xl'>Results</h1>
+    const [accuracy, setAccuracy] = useState(0);
+    const [wpm, setWpm] = useState(100);
+    const [time, setTime] = useState(0);
 
-            <div className='w-full grow grid px-5'>
-                <div className='w-full grow flex flex-col justify-center items-center mb-5 rounded-lg bg-gray-500'>
-                    <p className='font-["Comic_Sans"] text-white'>Me and my monkey 🙈 🙉 🙊</p>
-                </div>
+    return (
+        <div className='grid grid-cols-3 p-20'>
+            <div className='flex flex-col justify-center items-center'>
+                <h1 className='font-bold text-2xl text-[#394760]'>Accuracy</h1>
+                <p className='font-bold text-5xl text-[#9FADC6]'>{accuracy}%</p>
+            </div>
+            <div className='flex flex-col justify-center items-center'>
+                <p className='font-bold text-7xl text-[#9FADC6]'>{wpm}</p>
+                <h1 className='font-bold text-4xl text-[#394760]'>Words Per Minute</h1>
+            </div>
+            <div className='flex flex-col justify-center items-center'>
+                <h1 className='font-bold text-2xl text-[#394760]'>Time</h1>
+                <p className='font-bold text-5xl text-[#9FADC6]'>{time}s</p>
             </div>
         </div>
     )
