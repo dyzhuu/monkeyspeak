@@ -106,6 +106,8 @@ export default function TestPage() {
 
   async function stopStreaming() {
     stopStream();
+    ws?.disconnect();
+    setWs(undefined);
     setIsStreaming(false);
   }
 
