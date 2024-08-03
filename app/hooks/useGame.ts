@@ -1,19 +1,21 @@
-'use client';
-
 import { Button } from '@/components/ui/button';
-import { deepgram } from './deepgram';
 import { ListenLiveClient, LiveTranscriptionEvents } from '@deepgram/sdk';
 import { useAudioStream } from 'react-audio-stream';
-import { useEffect, useRef, useState } from 'react';
-import { checkSpeech, tokenize } from '@/lib/check-speech';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { checkSpeech, speechStats, tokenize } from '@/lib/check-speech';
+import { deepgram } from '@/lib/deepgram';
 
-const text = tokenize('hello testing this');
-
-export default function TestPage() {
+export function useGame(text: string[]) {
   const [isStreaming, setIsStreaming] = useState(false);
   const [intervalRef, setIntervalRef] = useState<NodeJS.Timeout | null>(null);
   const [result, setResult] = useState('');
   const [ws, setWs] = useState<ListenLiveClient>();
+  const [gameStats, setGameStats] = useState<speechStats>({
+    currentIndex: 0,
+    total: 0,
+    correct: 0,
+    incorrect: 0
+  });
   const currentIndexRef = useRef(0);
 
   useEffect(() => {
@@ -51,14 +53,19 @@ export default function TestPage() {
           currentIndex: currentIndexRef.current
         });
 
-        console.log(stats.currentIndex);
-
         currentIndexRef.current = stats.currentIndex;
 
         if (stats.currentIndex >= text.length) {
           setIsStreaming(false);
           connection.disconnect();
         }
+
+        setGameStats({
+          currentIndex: stats.currentIndex,
+          total: stats.total,
+          correct: stats.correct,
+          incorrect: stats.incorrect
+        });
 
         setResult((res) => res + ' ' + message);
       });
@@ -111,19 +118,11 @@ export default function TestPage() {
     setIsStreaming(false);
   }
 
-  return (
-    <div>
-      <Button onClick={startStreaming} disabled={isStreaming}>
-        Start Streaming
-      </Button>
-      <Button onClick={stopStreaming} disabled={!isStreaming}>
-        Stop Streaming
-      </Button>
-      <pre>
-        as the living it is our responsibility to carry out the wishes of the
-        ones who are gone
-      </pre>
-      <p>{result}</p>
-    </div>
-  );
+  return {
+    startStreaming,
+    stopStreaming,
+    isStreaming,
+    result,
+    gameStats
+  };
 }
