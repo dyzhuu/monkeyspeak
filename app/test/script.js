@@ -22,11 +22,12 @@ async function startStreaming() {
     });
     
     // Initialize WebSocket
-    webSocket = new WebSocket('ws://vigilant-yaksha-production.up.railway.app/v1/audio/transcriptions?language=en');
+    webSocket = new WebSocket('ws://0.0.0.0:8000/v1/audio/transcriptions?language=en');
     webSocket.binaryType = 'arraybuffer';
     
     webSocket.onmessage = (event) => {
       // Log the received WebSocket message
+      console.log(event)
       const message = JSON.parse(event.data).text;
       console.log("WebSocket response:", message);
       output.textContent = `${message}`;
@@ -61,7 +62,7 @@ async function startStreaming() {
         webSocket.send(data);
         console.log("Sent data:", data);
       }
-    }, 50);
+    }, 125);
 
     startButton.disabled = true;
     stopButton.disabled = false;
