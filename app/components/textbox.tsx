@@ -13,36 +13,17 @@ export default function TextBox({
   const [spokenText, setSpokenText] = useState('');
   const [remainingText, setRemainingText] = useState('');
 
-  const [textIndex, setTextIndex] = useState(0);
-
-  const wordIndexes = setIndexes();
-
-  function setIndexes() {
-    const indexes = [0];
-    for (let index = 0; index < paragraph.length; index++) {
-      if (paragraph.charAt(index) == ' ') {
-        indexes.push(index + 1);
-      }
-    }
-    indexes.push(paragraph.length);
-    return indexes;
-  }
-
-  function updateText() {
-    setSpokenText(paragraph.substring(0, textIndex));
-    if (textIndex == paragraph.length) {
-      setRemainingText('');
-    } else {
-      setRemainingText(paragraph.substring(textIndex));
-    }
-  }
+  const tokenizedText = useMemo(() => tokenize(paragraph), [paragraph]);
 
   useEffect(() => {
-    updateText();
-  }, [textIndex]);
-
-  useEffect(() => {
-    setTextIndex(wordIndexes[gameStats.currentIndex]);
+    setSpokenText(
+      tokenize(paragraph).slice(0, gameStats.currentIndex).join(' ')
+    );
+    setRemainingText(
+      tokenizedText
+        .slice(gameStats.currentIndex, tokenizedText.length + 1)
+        .join(' ')
+    );
   }, [gameStats]);
 
   // const tokenizedParagraph = useMemo(() => tokenize(paragraph), [paragraph]);

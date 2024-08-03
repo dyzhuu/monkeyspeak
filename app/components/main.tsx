@@ -2,34 +2,21 @@
 
 import { useState, useEffect } from 'react';
 
-import TextBox from './textbox';
-import Results from './results';
 import Timer from './timer';
 import MultiplayerBars from './multiplayerBars';
 import Loading from './loading';
 
 import { generateRandomParagraph } from '../hooks/word_generator';
-import { statsCalculator } from '@/lib/statsCalculator';
-import { tokenize } from '@/lib/check-speech';
-import { useGame } from '../hooks/useGame';
-import { Button } from '@/components/ui/button';
-import { Game } from './game';
-import { useAudioStream } from 'react-audio-stream';
 
-import words from '../words.json';
+import Content from './content';
 
 export default function Main() {
   const [gameOver, setGameOver] = useState(false);
   const [gameRunning, setGameRunning] = useState(false);
   const [paragraph, setParagraph] = useState(generateRandomParagraph());
 
-  const [accuracy, setAccuracy] = useState(0);
-  const [wpm, setWpm] = useState(0);
   const [timer, setTimer] = useState(0);
-
-  const { startStreaming, stopStreaming, gameStats } = useGame(
-    tokenize(paragraph)
-  );
+  const [isMounted, setIsMounted] = useState(true);
 
   function toggleAnimation(element: HTMLElement, animation: string) {
     element.classList.remove(animation);
@@ -38,43 +25,26 @@ export default function Main() {
   }
 
   function resetGame() {
-    // setParagraph(generateRandomParagraph(words.sentences, 1));
+    setIsMounted(false);
 
-    // setGameOver(false);
-    window.location.reload();
+    setParagraph(generateRandomParagraph());
+    setGameOver(false);
+
+    setTimeout(() => {
+      setIsMounted(true);
+    }, 0);
   }
 
   function startGame() {
-    startStreaming();
-
     setTimer(0);
 
     setGameRunning(true);
   }
 
   function endGame() {
-    stopStreaming();
-
-    const { accuracy, wordsPerMinute } = statsCalculator(
-      gameStats.currentIndex,
-      gameStats.total,
-      gameStats.correct,
-      gameStats.incorrect,
-      timer
-    );
-    setAccuracy(accuracy);
-    setWpm(wordsPerMinute);
-
     setGameRunning(false);
     setGameOver(true);
   }
-
-  useEffect(() => {
-    console.log(gameStats);
-    if (gameStats.currentIndex == tokenize(paragraph).length) {
-      endGame();
-    }
-  }, [gameStats]);
 
   useEffect(() => {
     if (gameRunning) {
@@ -93,13 +63,15 @@ export default function Main() {
       <h1 className="font-bold text-5xl text-[#9FADC6] m-2">monkeyspeak</h1>
 
       <div className="w-full flex flex-col justify-center items-center gap-5">
-        <div className="w-full grid">
-          {gameOver ? (
-            <Results time={timer} gameStats={gameStats} />
-          ) : (
-            <TextBox paragraph={paragraph} gameStats={gameStats} />
-          )}
-        </div>
+        {isMounted && (
+          <Content
+            timer={timer}
+            setGameEnd={endGame}
+            gameRunning={gameRunning}
+            gameOver={gameOver}
+            paragraph={paragraph}
+          />
+        )}
 
         <div className="flex justify-center items-center">
           {gameRunning ? (
