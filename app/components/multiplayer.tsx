@@ -6,6 +6,8 @@ import { io, Socket } from 'socket.io-client';
 import { Player } from '@/types';
 import { Button } from '@/components/ui/button';
 import { tokenize } from '@/lib/check-speech';
+import loading from './loading';
+import Loading from './loading';
 
 enum GameState {
   BEGINNING,
@@ -24,7 +26,7 @@ export function Multiplayer() {
     Array<{ playerNumber: number; progress: number }>
   >([]);
 
-  const [state, setState] = useState<GameState>(GameState.BEGINNING);
+  const [state, setState] = useState<GameState>(GameState.GAME);
   const [text, setText] = useState<string>('');
 
   useEffect(() => {
@@ -146,15 +148,21 @@ export function Multiplayer() {
   if (state === GameState.LOBBY) {
     return (
       <div className="w-full h-full flex flex-col gap-10 justify-center items-center grow text-white">
-        <div>
-          <h2>Players:</h2>
-          <div>
-            {Array.from(players.values()).map((player) => (
-              <p key={player.id}>{player.id}</p>
-            ))}
-          </div>
-        </div>
-        <Button onClick={handleStartGame}>Start Game</Button>
+        {players.size === 0 ? (
+          <Loading />
+        ) : (
+          <>
+            <div>
+              <h2>Players:</h2>
+              <div>
+                {Array.from(players.values()).map((player) => (
+                  <p key={player.id}>{player.id}</p>
+                ))}
+              </div>
+            </div>
+            <Button onClick={handleStartGame}>Start Game</Button>
+          </>
+        )}
       </div>
     );
   }

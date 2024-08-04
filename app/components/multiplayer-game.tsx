@@ -59,13 +59,21 @@ export const MultiplayerGame = ({
             <TextBox paragraph={text} gameStats={gameStats} />
           </div>
 
-          {showResults ? (
-            <Results time={time} gameStats={gameStats} />
-          ) : (
-            <div className="w-full flex justify-center">
+          <div className="w-full flex flex-col justify-center">
+            {showResults ? (
+              <>
+                <Results time={time} gameStats={gameStats} />
+                <button
+                  onClick={() => window.location.reload()}
+                  className="bg-[#394760] text-white p-2 rounded-md"
+                >
+                  Return
+                </button>
+              </>
+            ) : (
               <Timer />
-            </div>
-          )}
+            )}
+          </div>
         </>
       ) : (
         <button

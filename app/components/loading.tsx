@@ -2,7 +2,7 @@ import { waveform } from 'ldrs';
 
 waveform.register();
 
-export default function loading() {
+export default function Loading() {
   return (
     <div>
       <l-waveform
