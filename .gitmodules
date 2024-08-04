@@ -1,0 +1,3 @@
+[submodule "ws-server"]
+	path = ws-server
+	url = https://github.com/dyzhuu/monkeyspeak-ws-server.git
