@@ -2,9 +2,16 @@
 import Link from 'next/link';
 import { useState } from 'react';
 
-export default function ModeBar() {
+export default function ModeBar({
+  setTimeLimit,
+  setDifficulty
+}: {
+  setTimeLimit: (n: number) => void;
+  setDifficulty: (n: number) => void;
+}) {
+  const [value, setValue] = useState(0);
   const [mode, setMode] = useState('word');
-  const [value, setValue] = useState(30);
+  const [hardness, setHardness] = useState('Medium');
   const [player, setPlayer] = useState('single');
 
   function changeMove(mode: string) {
@@ -20,10 +27,16 @@ export default function ModeBar() {
   }
 
   return (
-    <div className="w-full flex justify-evenly items-center *:w-[33%] *:flex *:justify-evenly *:rounded-md gap-4 whitespace-nowrap">
+    <div className="w-full flex justify-evenly items-center *:flex *:justify-evenly *:rounded-md gap-4 whitespace-nowrap">
       <div className="bg-[#141A24]">
         <button
-          onClick={() => changeMove('time')}
+          onClick={() => {
+            changeMove('time');
+            if (value == 0) {
+              setTimeLimit(30);
+              changeValue(30);
+            }
+          }}
           className={`font-bold text-2xl ${mode == 'time' ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
         >
           Time
@@ -37,20 +50,47 @@ export default function ModeBar() {
       </div>
       <div className="bg-[#141A24]">
         <button
-          onClick={() => changeValue(15)}
-          className={`font-bold text-2xl ${value == 15 ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5 whitespace-normal`}
+          onClick={() => {
+            if (mode == 'time') {
+              setTimeLimit(15);
+              changeValue(15);
+            } else {
+              setTimeLimit(0);
+              setDifficulty(0);
+              setHardness('Easy');
+            }
+          }}
+          className={`font-bold text-2xl ${(mode == 'time' && value == 15) || (mode != 'time' && hardness == 'Easy') ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5 whitespace-normal`}
         >
           {mode == 'time' ? '  15  ' : 'Easy'}
         </button>
         <button
-          onClick={() => changeValue(30)}
-          className={`font-bold text-2xl ${value == 30 ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
+          onClick={() => {
+            if (mode == 'time') {
+              setTimeLimit(30);
+              changeValue(30);
+            } else {
+              setTimeLimit(0);
+              setDifficulty(1);
+              setHardness('Medium');
+            }
+          }}
+          className={`font-bold text-2xl ${(mode == 'time' && value == 30) || (mode != 'time' && hardness == 'Medium') ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
         >
           {mode == 'time' ? 30 : 'Medium'}
         </button>
         <button
-          onClick={() => changeValue(45)}
-          className={`font-bold text-2xl ${value == 45 ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
+          onClick={() => {
+            if (mode == 'time') {
+              setTimeLimit(45);
+              changeValue(45);
+            } else {
+              setTimeLimit(0);
+              setDifficulty(2);
+              setHardness('Hard');
+            }
+          }}
+          className={`font-bold text-2xl ${(mode == 'time' && value == 45) || (mode != 'time' && hardness == 'Hard') ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
         >
           {mode == 'time' ? 45 : 'Hard'}
         </button>

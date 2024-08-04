@@ -2,7 +2,13 @@
 
 import { useState, useEffect } from 'react';
 
+import ModeBar from './modeBar';
+import Timer from './timer';
+import Loading from './loading';
+
 import { generateRandomParagraph } from '../hooks/word_generator';
+import progressBar from './progressBar';
+import { User } from 'lucide-react';
 
 import Content from './content';
 
@@ -13,6 +19,8 @@ export default function Main() {
 
   const [timer, setTimer] = useState(0);
   const [isMounted, setIsMounted] = useState(true);
+  const [timeLimit, setTimeLimit] = useState(0);
+  const [difficulty, setDifficulty] = useState(-1);
 
   function toggleAnimation(element: HTMLElement, animation: string) {
     element.classList.remove(animation);
@@ -23,7 +31,7 @@ export default function Main() {
   function resetGame() {
     setIsMounted(false);
 
-    setParagraph(generateRandomParagraph());
+    setParagraph(generateRandomParagraph(difficulty));
     setGameOver(false);
 
     setTimeout(() => {
@@ -63,11 +71,27 @@ export default function Main() {
     }
   }, [gameRunning]);
 
+  useEffect(() => {
+    if (timer != 0 && timeLimit != 0 && timer >= timeLimit) {
+      endGame();
+    }
+  }, [timer, timeLimit]);
+
+  useEffect(() => {
+    if (difficulty == -1) {
+      setDifficulty(1);
+    } else {
+      resetGame();
+    }
+  }, [difficulty]);
+
   return (
-    <div className="flex flex-col justify-center content-center">
-      <div className="min-h-[20vh] flex flex-col justify-center items-center gap-5">
+    <div className="flex flex-col">
+      <h1 className="font-bold text-5xl text-[#9FADC6] m-2">monkeyspeak</h1>
+
+      <div className="flex flex-col justify-center items-center gap-5">
         {isMounted && (
-          <div className="min-h-[20vh] flex justify-center items-center">
+          <div className="min-h-[10rem] flex justify-center items-center">
             <Content
               timer={timer}
               setGameEnd={endGame}
@@ -92,6 +116,10 @@ export default function Main() {
             </button>
           )}
         </div>
+      </div>
+
+      <div className={`m-10 ${gameRunning && 'pointer-events-none'}`}>
+        <ModeBar setTimeLimit={setTimeLimit} setDifficulty={setDifficulty} />
       </div>
     </div>
   );

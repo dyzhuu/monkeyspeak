@@ -1,33 +1,19 @@
 const sentences = require('../words.json').sentences;
+const easy = require('../words.json').easy;
+const hard = require('../words.json').hard;
 
 function getRandomSentence(sentences: string[]) {
   const randomIndex = Math.floor(Math.random() * sentences.length);
   return sentences[randomIndex];
 }
 
-export function generateRandomParagraph() {
-  const numOfSentences = 1;
-  // Number of sentences chosen cannot exceed amount of sentences available
-  if (numOfSentences > sentences.length) {
-    console.error(
-      'Number of sentences cannot exceed amount of sentences available'
-    );
-    return '';
+export function generateRandomParagraph(difficulty = 1) {
+  let sentence = getRandomSentence(sentences);
+  if (difficulty == 0) {
+    sentence = getRandomSentence(easy);
+  } else if (difficulty == 2) {
+    sentence = getRandomSentence(hard);
   }
 
-  // Pre-allocate chosen sentences
-  let chosen: string[] = [];
-
-  for (let i = 0; i < numOfSentences; i++) {
-    var sentence = getRandomSentence(sentences);
-    // While sentence already chosen, keep getting a random sentence
-    while (chosen.includes(sentence)) {
-      sentence = getRandomSentence(sentences);
-    }
-    chosen.push(sentence);
-  }
-
-  // Join chosen sentences with ". ", added with "." for the final sentence
-  let res: string = chosen.join('. ');
-  return res;
+  return sentence;
 }
