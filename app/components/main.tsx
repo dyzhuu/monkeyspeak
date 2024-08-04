@@ -46,8 +46,17 @@ export default function Main() {
     setGameOver(true);
   }
 
+  function handleEsc(event: { key: string }) {
+    if (event.key == 'Escape') {
+      document.removeEventListener('keydown', handleEsc);
+      endGame();
+    }
+  }
+
   useEffect(() => {
     if (gameRunning) {
+      document.addEventListener('keydown', handleEsc);
+
       const timerInterval = setInterval(() => {
         setTimer((prevTimer) => prevTimer + 1);
       }, 1000);
