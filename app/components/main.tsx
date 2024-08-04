@@ -8,6 +8,8 @@ import MultiplayerBars from './multiplayerBars';
 import Loading from './loading';
 
 import { generateRandomParagraph } from '../hooks/word_generator';
+import progressBar from './progressBar';
+import { User } from 'lucide-react';
 
 import Content from './content';
 
@@ -19,7 +21,7 @@ export default function Main() {
   const [timer, setTimer] = useState(0);
   const [isMounted, setIsMounted] = useState(true);
   const [timeLimit, setTimeLimit] = useState(0);
-  const [difficulty, setDifficulty] = useState('medium');
+  const [difficulty, setDifficulty] = useState(-1);
 
   function toggleAnimation(element: HTMLElement, animation: string) {
     element.classList.remove(animation);
@@ -30,7 +32,7 @@ export default function Main() {
   function resetGame() {
     setIsMounted(false);
 
-    setParagraph(generateRandomParagraph());
+    setParagraph(generateRandomParagraph(difficulty));
     setGameOver(false);
 
     setTimeout(() => {
@@ -71,10 +73,18 @@ export default function Main() {
   }, [gameRunning]);
 
   useEffect(() => {
-    if (timeLimit != 0 && timer >= timeLimit) {
+    if (timer != 0 && timeLimit != 0 && timer >= timeLimit) {
       endGame();
     }
   }, [timer, timeLimit]);
+
+  useEffect(() => {
+    if (difficulty == -1) {
+      setDifficulty(1);
+    } else {
+      resetGame();
+    }
+  }, [difficulty]);
 
   return (
     <div className="w-[75rem] flex flex-col">
