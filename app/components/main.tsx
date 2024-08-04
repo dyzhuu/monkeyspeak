@@ -68,12 +68,12 @@ export default function Main() {
   }, [gameRunning]);
 
   return (
-    <div className="flex flex-col justify-center content-center">
+    <div className="w-[75rem] flex flex-col">
       <h1 className="font-bold text-5xl text-[#9FADC6] m-2">monkeyspeak</h1>
 
-      <div className="min-h-[20vh] flex flex-col justify-center items-center gap-5">
+      <div className="flex flex-col justify-center items-center gap-5">
         {isMounted && (
-          <div className="min-h-[20vh] flex justify-center items-center">
+          <div className="min-h-[10rem] flex justify-center items-center">
             <Content
               timer={timer}
               setGameEnd={endGame}

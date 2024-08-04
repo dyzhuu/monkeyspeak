@@ -19,7 +19,7 @@ export default function ModeBar() {
   }
 
   return (
-    <div className="w-full flex justify-evenly items-center *:w-[33%] *:flex *:justify-evenly *:rounded-md gap-4 whitespace-nowrap">
+    <div className="min-w-[50rem] max-w-[75rem] w-full flex justify-evenly items-center *:w-[33%] *:flex *:justify-evenly *:rounded-md gap-4 whitespace-nowrap">
       <div className="bg-[#141A24]">
         <button
           onClick={() => changeMove('time')}

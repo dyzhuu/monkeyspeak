@@ -3,7 +3,7 @@ import ModeBar from './components/modeBar';
 
 export default function Home() {
   return (
-    <div className="max-w-dvw min-w-dvw p-16 flex flex-col justify-center gap-24">
+    <div className="w-[75rem]  p-16 flex flex-col items-center gap-24">
       <Main />
 
       <ModeBar />
