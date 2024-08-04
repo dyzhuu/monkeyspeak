@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import '@/app/globals.css';
+import { AudioStreamProvider } from '@/lib/contexts/audio-stream-context';
+import { PermissionPopup } from './components/permission-popup';
 
 export const metadata: Metadata = {
   title: {
@@ -16,9 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen w-full flex flex-col items-justify bg-[#0B0E13]">
-        {children}
-      </body>
+      <AudioStreamProvider>
+        <body className="min-h-screen w-full flex flex-col items-justify bg-[#0B0E13]">
+          {children}
+          <PermissionPopup />
+        </body>
+      </AudioStreamProvider>
     </html>
   );
 }

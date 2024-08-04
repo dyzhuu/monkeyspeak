@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import React from 'react';
 import Results from './results';
 import Timer from './timer';
+import { useAudioStreamContext } from '@/lib/contexts/audio-stream-context';
 
 interface GameProps {
   text: string;
@@ -13,10 +14,11 @@ interface GameProps {
 
 export const Game = ({ text, onEsc }: GameProps) => {
   const tokenizedText = tokenize(text);
-  const { startStreaming, stopStreaming, gameStats } = useGame(tokenizedText);
+  const { gameStats } = useGame(tokenizedText);
   const [gameRunning, setGameRunning] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [time, setTime] = useState(0);
+  const { startRecording } = useAudioStreamContext();
 
   const timerIntervalRef = useRef<any>();
 
@@ -50,7 +52,6 @@ export const Game = ({ text, onEsc }: GameProps) => {
       onEsc();
       clearInterval(timerIntervalRef.current);
       setTime(0);
-      stopStreaming();
     }
   }
 
@@ -59,9 +60,9 @@ export const Game = ({ text, onEsc }: GameProps) => {
       onEsc();
       return;
     }
+    startRecording();
     setShowResults(false);
     setGameRunning(true);
-    startStreaming();
   }
 
   return (
