@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
+import ModeBar from './modeBar';
 import Timer from './timer';
 import MultiplayerBars from './multiplayerBars';
 import Loading from './loading';
@@ -17,6 +18,8 @@ export default function Main() {
 
   const [timer, setTimer] = useState(0);
   const [isMounted, setIsMounted] = useState(true);
+  const [timeLimit, setTimeLimit] = useState(0);
+  const [difficulty, setDifficulty] = useState('medium');
 
   function toggleAnimation(element: HTMLElement, animation: string) {
     element.classList.remove(animation);
@@ -67,6 +70,12 @@ export default function Main() {
     }
   }, [gameRunning]);
 
+  useEffect(() => {
+    if (timeLimit != 0 && timer >= timeLimit) {
+      endGame();
+    }
+  }, [timer, timeLimit]);
+
   return (
     <div className="w-[75rem] flex flex-col">
       <h1 className="font-bold text-5xl text-[#9FADC6] m-2">monkeyspeak</h1>
@@ -98,6 +107,10 @@ export default function Main() {
             </button>
           )}
         </div>
+      </div>
+
+      <div className={`m-10 ${gameRunning && 'pointer-events-none'}`}>
+        <ModeBar setTimeLimit={setTimeLimit} setDifficulty={setDifficulty} />
       </div>
     </div>
   );
