@@ -8,6 +8,8 @@ import MultiplayerBars from './multiplayerBars';
 import Loading from './loading';
 
 import { generateRandomParagraph } from '../hooks/word_generator';
+import progressBar from './progressBar';
+import { User } from 'lucide-react';
 
 import Content from './content';
 
