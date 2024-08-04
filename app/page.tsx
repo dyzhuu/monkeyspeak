@@ -2,7 +2,7 @@ import Main from './components/main';
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-justify bg-[#0B0E13] p-10">
+    <div className="w-[75rem]  p-16 flex flex-col items-center">
       <Main />
     </div>
   );
