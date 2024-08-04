@@ -2,6 +2,8 @@ import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import { addUserToRoom, deleteUser, getOrCreateRoomById } from './services';
+import { text } from 'stream/consumers';
+import { generateRandomParagraph } from './word-generator';
 
 const GLOBALROOMID = '';
 
@@ -48,11 +50,23 @@ gameNamespace.on('connection', (socket) => {
     });
   });
 
+  socket.on('startGame', (roomId) => {
+    gameNamespace.to(roomId).emit('startGame', {
+      text: generateRandomParagraph()
+    });
+  });
+
   socket.on('speakUpdate', (data) => {
     const { roomId, currentIndex } = data;
     gameNamespace
       .to(roomId)
       .emit('speakUpdate', { userId: socket.id, currentIndex });
+  });
+
+  socket.on('finished', () => {
+    gameNamespace.to(GLOBALROOMID).emit('finished', {
+      userId: socket.id
+    });
   });
 });
 

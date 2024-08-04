@@ -65,7 +65,9 @@ export function useGame(text: string[]) {
           incorrect: stats.incorrect + prev.incorrect
         }));
 
-        setResult((res) => res + ' ' + message);
+        setResult((res) => {
+          return res + ' ' + message;
+        });
       });
 
       connection?.on(LiveTranscriptionEvents.Metadata, (data) => {
@@ -89,6 +91,7 @@ export function useGame(text: string[]) {
 
   const sendBlob = (blob: Blob) => {
     // write your stream logic here.
+
     if (!ws) return;
     blob
       .stream()

@@ -7,5 +7,5 @@ export type speechStats = {
 
 export type Player = {
   id: string;
-  stats?: speechStats;
+  currentIndex?: number;
 };

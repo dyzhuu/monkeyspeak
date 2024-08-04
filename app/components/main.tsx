@@ -2,10 +2,6 @@
 
 import { useState, useEffect } from 'react';
 
-import Timer from './timer';
-import MultiplayerBars from './multiplayerBars';
-import Loading from './loading';
-
 import { generateRandomParagraph } from '../hooks/word_generator';
 
 import Content from './content';
@@ -69,8 +65,6 @@ export default function Main() {
 
   return (
     <div className="flex flex-col justify-center content-center">
-      <h1 className="font-bold text-5xl text-[#9FADC6] m-2">monkeyspeak</h1>
-
       <div className="min-h-[20vh] flex flex-col justify-center items-center gap-5">
         {isMounted && (
           <div className="min-h-[20vh] flex justify-center items-center">

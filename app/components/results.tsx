@@ -1,4 +1,4 @@
-import { speechStats } from '@/lib/check-speech';
+import { speechStats } from '@/types';
 import { useState } from 'react';
 
 export default function Results({

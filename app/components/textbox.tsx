@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { speechStats, tokenize } from '../../lib/check-speech';
+import { tokenize } from '../../lib/check-speech';
+import { speechStats } from '@/types';
 
 export default function TextBox({
   paragraph,

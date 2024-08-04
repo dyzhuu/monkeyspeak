@@ -8,13 +8,16 @@ import Timer from './timer';
 
 interface MultiplayerGameProps {
   text: string;
-  onEsc: () => void;
+  onStatsChange: (currentIndex: number) => void;
 }
 
-export const MultiplayerGame = ({ text, onEsc }: MultiplayerGameProps) => {
+export const MultiplayerGame = ({
+  text,
+  onStatsChange
+}: MultiplayerGameProps) => {
   const tokenizedText = tokenize(text);
-  const { startStreaming, stopStreaming, gameStats } = useGame(tokenizedText);
-  const [gameRunning, setGameRunning] = useState(false);
+  const { startStreaming, gameStats } = useGame(tokenizedText);
+  const [gameStarted, setGameStarted] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [time, setTime] = useState(0);
 
@@ -23,59 +26,55 @@ export const MultiplayerGame = ({ text, onEsc }: MultiplayerGameProps) => {
   const textboxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (gameRunning) {
-      document.addEventListener('keydown', handleKeyDown);
-      timerIntervalRef.current = setInterval(() => {
-        setTime((prevTime) => prevTime + 1);
-      }, 1000);
-    }
+    timerIntervalRef.current = setInterval(() => {
+      setTime((prevTime) => prevTime + 1);
+    }, 1000);
 
     return () => {
       clearInterval(timerIntervalRef.current);
     };
-  }, [gameRunning]);
+  }, []);
+
+  useEffect(() => {
+    onStatsChange(gameStats.currentIndex);
+  }, [gameStats.currentIndex]);
 
   useEffect(() => {
     if (gameStats.currentIndex >= tokenizedText.length) {
       clearInterval(timerIntervalRef.current);
-      setGameRunning(false);
       setShowResults(true);
     }
   }, [gameStats.currentIndex]);
 
-  function handleKeyDown(event: KeyboardEvent) {
-    if (event.key == 'Escape' && gameRunning) {
-      document.removeEventListener('keydown', handleKeyDown);
-
-      onEsc();
-      clearInterval(timerIntervalRef.current);
-      setTime(0);
-      stopStreaming();
-    }
-  }
-
   function startGame() {
-    if (showResults) {
-      onEsc();
-      return;
-    }
-    setShowResults(false);
-    setGameRunning(true);
     startStreaming();
+    setGameStarted(true);
   }
 
   return (
     <div className="flex flex-col justify-center gap-10 grow">
-      <div ref={textboxRef}>
-        <TextBox
-          tokenizedText={tokenizedText}
-          currentIndex={gameStats.currentIndex}
-        />
-      </div>
-      {showResults && <Results time={time} gameStats={gameStats} />}
-      <div className="w-full flex justify-center">
-        <Timer />
-      </div>
+      {gameStarted ? (
+        <>
+          <div ref={textboxRef}>
+            <TextBox paragraph={text} gameStats={gameStats} />
+          </div>
+
+          {showResults ? (
+            <Results time={time} gameStats={gameStats} />
+          ) : (
+            <div className="w-full flex justify-center">
+              <Timer />
+            </div>
+          )}
+        </>
+      ) : (
+        <button
+          onClick={startGame}
+          className="bg-[#394760] text-white p-2 rounded-md"
+        >
+          Click to start
+        </button>
+      )}
     </div>
   );
 };
