@@ -3,15 +3,17 @@ import { useState } from 'react';
 
 export default function ModeBar({
   setTimeLimit,
-  setDifficulty
+  setDifficulty,
+  setPlayer,
 }: {
   setTimeLimit: (n: number) => void;
   setDifficulty: (n: number) => void;
+  setPlayer: (s: string) => void;
 }) {
   const [value, setValue] = useState(0);
   const [mode, setMode] = useState('word');
   const [hardness, setHardness] = useState('Medium');
-  const [player, setPlayer] = useState('single');
+  const [player, setPlayerMode] = useState('single');
 
   function changeMove(mode: string) {
     setMode(mode);
@@ -21,8 +23,8 @@ export default function ModeBar({
     setValue(n);
   }
 
-  function changePlayer(player: string) {
-    setPlayer(player);
+  function changePlayerMode(player: string) {
+    setPlayerMode(player);
   }
 
   return (
@@ -93,13 +95,19 @@ export default function ModeBar({
       </div>
       <div className=" bg-[#141A24]">
         <button
-          onClick={() => changePlayer('single')}
+          onClick={() => {
+            setPlayer('single')
+            changePlayerMode('single')
+          }}
           className={`font-bold text-2xl ${player == 'single' ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
         >
           Single Player
         </button>
         <button
-          onClick={() => changePlayer('multi')}
+          onClick={() => {
+            setPlayer('multi')
+            changePlayerMode('multi')
+          }}
           className={`font-bold text-2xl ${player == 'multi' ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
         >
           Multiplayer

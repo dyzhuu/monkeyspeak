@@ -22,6 +22,7 @@ export default function Main() {
   const [isMounted, setIsMounted] = useState(true);
   const [timeLimit, setTimeLimit] = useState(0);
   const [difficulty, setDifficulty] = useState(-1);
+  const [player, setPlayer] = useState('single');
 
   function toggleAnimation(element: HTMLElement, animation: string) {
     element.classList.remove(animation);
@@ -90,38 +91,49 @@ export default function Main() {
     <div className="w-[75rem] flex flex-col">
       <h1 className="font-bold text-5xl text-[#9FADC6] m-2">monkeyspeak</h1>
 
-      <div className="flex flex-col justify-center items-center gap-5">
-        {isMounted && (
-          <div className="min-h-[10rem] flex justify-center items-center">
-            <Content
-              timer={timer}
-              setGameEnd={endGame}
-              gameRunning={gameRunning}
-              gameOver={gameOver}
-              paragraph={paragraph}
-            />
+      <div className={'text-[#9FADC6]'}>
+        {player === 'multi' ? (
+          <div className={''}>
+            <MultiplayerBars />
+          </div>
+        ) : (
+          <div> 
+            <div className="flex flex-col justify-center items-center gap-5">
+              {isMounted && (
+                <div className="min-h-[10rem] flex justify-center items-center">
+                  <Content
+                    timer={timer}
+                    setGameEnd={endGame}
+                    gameRunning={gameRunning}
+                    gameOver={gameOver}
+                    paragraph={paragraph}
+                  />
+                </div>
+              )}
+
+              <div className="flex justify-center items-center">
+                {gameRunning ? (
+                  <h2 className="font-bold text-3xl text-[#9FADC6] p-3">{timer}</h2>
+                ) : (
+                  <button
+                    onClick={() => {
+                      gameOver ? resetGame() : startGame();
+                    }}
+                    className="rounded-[1.5rem] font-bold text-3xl text-[#394760] bg-[#9FADC6] p-3 px-6"
+                  >
+                    {gameOver ? 'New Game' : 'Start'}
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         )}
-
-        <div className="flex justify-center items-center">
-          {gameRunning ? (
-            <h2 className="font-bold text-3xl text-[#9FADC6] p-3">{timer}</h2>
-          ) : (
-            <button
-              onClick={() => {
-                gameOver ? resetGame() : startGame();
-              }}
-              className="rounded-[1.5rem] font-bold text-3xl text-[#394760] bg-[#9FADC6] p-3 px-6"
-            >
-              {gameOver ? 'New Game' : 'Start'}
-            </button>
-          )}
-        </div>
       </div>
 
       <div className={`m-10 ${gameRunning && 'pointer-events-none'}`}>
-        <ModeBar setTimeLimit={setTimeLimit} setDifficulty={setDifficulty} />
+        <ModeBar setTimeLimit={setTimeLimit} setDifficulty={setDifficulty} setPlayer={setPlayer} />
       </div>
+
     </div>
   );
 }
