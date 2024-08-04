@@ -25,11 +25,11 @@ export default function Content({
 
   useEffect(() => {
     console.log(gameStats);
-    if (gameStats.currentIndex == tokenize(paragraph).length) {
+    if (gameOver || gameStats.currentIndex == tokenize(paragraph).length) {
       stopStreaming();
       setGameEnd();
     }
-  }, [gameStats]);
+  }, [gameStats, gameOver]);
 
   useEffect(() => {
     if (gameRunning) {
