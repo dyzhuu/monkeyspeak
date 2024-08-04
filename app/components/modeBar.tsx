@@ -6,10 +6,11 @@ export default function ModeBar({
   setDifficulty
 }: {
   setTimeLimit: (n: number) => void;
-  setDifficulty: (n: string) => void;
+  setDifficulty: (n: number) => void;
 }) {
-  const [value, setValue] = useState(15);
-  const [mode, setMode] = useState('Medium');
+  const [value, setValue] = useState(0);
+  const [mode, setMode] = useState('word');
+  const [hardness, setHardness] = useState('Medium');
   const [player, setPlayer] = useState('single');
 
   function changeMove(mode: string) {
@@ -30,8 +31,10 @@ export default function ModeBar({
         <button
           onClick={() => {
             changeMove('time');
-            setTimeLimit(30);
-            changeValue(30);
+            if (value == 0) {
+              setTimeLimit(30);
+              changeValue(30);
+            }
           }}
           className={`font-bold text-2xl ${mode == 'time' ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
         >
@@ -51,10 +54,11 @@ export default function ModeBar({
               setTimeLimit(15);
               changeValue(15);
             } else {
-              setDifficulty('easy');
+              setDifficulty(0);
+              setHardness('Easy');
             }
           }}
-          className={`font-bold text-2xl ${value == 15 ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5 whitespace-normal`}
+          className={`font-bold text-2xl ${(mode == 'time' && value == 15) || (mode != 'time' && hardness == 'Easy') ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5 whitespace-normal`}
         >
           {mode == 'time' ? '  15  ' : 'Easy'}
         </button>
@@ -64,10 +68,11 @@ export default function ModeBar({
               setTimeLimit(30);
               changeValue(30);
             } else {
-              setDifficulty('medium');
+              setDifficulty(1);
+              setHardness('Medium');
             }
           }}
-          className={`font-bold text-2xl ${value == 30 ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
+          className={`font-bold text-2xl ${(mode == 'time' && value == 30) || (mode != 'time' && hardness == 'Medium') ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
         >
           {mode == 'time' ? 30 : 'Medium'}
         </button>
@@ -77,10 +82,11 @@ export default function ModeBar({
               setTimeLimit(45);
               changeValue(45);
             } else {
-              setDifficulty('hard');
+              setDifficulty(2);
+              setHardness('Hard');
             }
           }}
-          className={`font-bold text-2xl ${value == 45 ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
+          className={`font-bold text-2xl ${(mode == 'time' && value == 45) || (mode != 'time' && hardness == 'Hard') ? 'text-[#9FADC6]' : 'text-[#394760]'} bg-[#141A24] p-2 px-5`}
         >
           {mode == 'time' ? 45 : 'Hard'}
         </button>
