@@ -6,7 +6,6 @@ import { io, Socket } from 'socket.io-client';
 import { Player } from '@/types';
 import { Button } from '@/components/ui/button';
 import { tokenize } from '@/lib/check-speech';
-import loading from './loading';
 import Loading from './loading';
 
 enum GameState {
@@ -20,18 +19,17 @@ export function Multiplayer() {
   const [ws, setWs] = useState<Socket | null>(null);
   const [roomCode, setRoomCode] = useState<string>('');
   const [players, setPlayers] = useState<Map<string, Player>>(new Map());
-  const [socketId, setSocketId] = useState<string>('');
 
   const [multiplayerBarsState, setMultiplayerBarsState] = useState<
     Array<{ playerNumber: number; progress: number }>
   >([]);
 
-  const [state, setState] = useState<GameState>(GameState.GAME);
+  const [state, setState] = useState<GameState>(GameState.BEGINNING);
   const [text, setText] = useState<string>('');
 
   useEffect(() => {
     console.log('Connecting to WebSocket server...');
-    const socket = io('ws://localhost:8080/game', {
+    const socket = io(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}/game`, {
       transports: ['websocket']
     });
 

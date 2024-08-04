@@ -59,7 +59,7 @@ export const MultiplayerGame = ({
             <TextBox paragraph={text} gameStats={gameStats} />
           </div>
 
-          <div className="w-full flex flex-col justify-center">
+          <div className="w-full flex flex-col justify-center items-center">
             {showResults ? (
               <>
                 <Results time={time} gameStats={gameStats} />
