@@ -30,7 +30,7 @@ export default function TextBox({
     <div className="grow flex flex-col justify-center">
       <div className="grow overflow-y-scroll scrollbar-hide bg-transparent text-wrap text-justify text-3xl text-[#394760] p-2">
         <span>
-          <mark className="bg-transparent text-white">{spokenText}</mark>
+          <mark className="bg-transparent text-[#9FADC6]">{spokenText}</mark>
         </span>{' '}
         <span>{remainingText}</span>
       </div>
