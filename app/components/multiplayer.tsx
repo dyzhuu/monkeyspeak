@@ -133,6 +133,9 @@ export function Multiplayer() {
       return newPlayers;
     });
     ws?.emit('speakUpdate', { roomId: roomCode, currentIndex });
+    if (currentIndex >= text.length) {
+      ws?.emit('finished', { roomId: roomCode });
+    }
   }
 
   if (state === GameState.BEGINNING) {
