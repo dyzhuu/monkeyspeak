@@ -26,7 +26,7 @@ export default function ModeBar({
   }
 
   return (
-    <div className="min-w-[50rem] max-w-[75rem] w-full flex justify-evenly items-center *:w-[33%] *:flex *:justify-evenly *:rounded-md gap-4 whitespace-nowrap">
+    <div className="w-full flex justify-evenly items-center *:flex *:justify-evenly *:rounded-md gap-4 whitespace-nowrap">
       <div className="bg-[#141A24]">
         <button
           onClick={() => {
@@ -54,6 +54,7 @@ export default function ModeBar({
               setTimeLimit(15);
               changeValue(15);
             } else {
+              setTimeLimit(0);
               setDifficulty(0);
               setHardness('Easy');
             }
@@ -68,6 +69,7 @@ export default function ModeBar({
               setTimeLimit(30);
               changeValue(30);
             } else {
+              setTimeLimit(0);
               setDifficulty(1);
               setHardness('Medium');
             }
@@ -82,6 +84,7 @@ export default function ModeBar({
               setTimeLimit(45);
               changeValue(45);
             } else {
+              setTimeLimit(0);
               setDifficulty(2);
               setHardness('Hard');
             }

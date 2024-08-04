@@ -87,7 +87,7 @@ export default function Main() {
   }, [difficulty]);
 
   return (
-    <div className="w-[75rem] flex flex-col">
+    <div className="flex flex-col">
       <h1 className="font-bold text-5xl text-[#9FADC6] m-2">monkeyspeak</h1>
 
       <div className="flex flex-col justify-center items-center gap-5">
