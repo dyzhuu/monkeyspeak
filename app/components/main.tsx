@@ -8,6 +8,8 @@ import MultiplayerBars from './multiplayerBars';
 import Loading from './loading';
 
 import { generateRandomParagraph } from '../hooks/word_generator';
+import progressBar from './progressBar';
+import { User } from 'lucide-react';
 
 import Content from './content';
 
@@ -76,6 +78,7 @@ export default function Main() {
     }
   }, [timer, timeLimit]);
 
+
   return (
     <div className="w-[75rem] flex flex-col">
       <h1 className="font-bold text-5xl text-[#9FADC6] m-2">monkeyspeak</h1>
@@ -106,6 +109,7 @@ export default function Main() {
               {gameOver ? 'New Game' : 'Start'}
             </button>
           )}
+
         </div>
       </div>
 
